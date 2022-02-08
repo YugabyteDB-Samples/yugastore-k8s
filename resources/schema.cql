@@ -1,7 +1,7 @@
 
 CREATE KEYSPACE IF NOT EXISTS cronos;
 
-//
+
 // Table that stores all the static attributes of a product, queries are done by asin.
 //
 CREATE TABLE cronos.products (
