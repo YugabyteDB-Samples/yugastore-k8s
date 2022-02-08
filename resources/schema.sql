@@ -47,7 +47,7 @@ CREATE TABLE retail.inventory
  (
       order_id  UUID PRIMARY KEY,
       sku       UUID NOT NULL,
-      accountid CHAR(10) NOT NULL,
+      user_id CHAR(10) NOT NULL,
       order_details jsonb,
       order_time TIMESTAMP,
       order_total double,
@@ -59,7 +59,7 @@ CREATE TABLE retail.inventory
 Drop table if exists retail.users cascade;
 create table users
 (
-  accountid UUID PRIMARY KEY,
+  user_id UUID PRIMARY KEY,
   username VARCHAR(64) UNIQUE NOT NULL,
   passhash BYTEA NOT NULL,
   firstname VARCHAR(64) NOT NULL,
