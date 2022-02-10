@@ -56,8 +56,8 @@ CREATE TABLE retail.inventory
 );
  
 --User
-Drop table if exists retail.users cascade;
-create table users
+Drop table if exists retail.shopusers cascade;
+create table shopusers
 (
   user_id UUID PRIMARY KEY,
   username VARCHAR(64) UNIQUE NOT NULL,
