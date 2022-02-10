@@ -1,7 +1,6 @@
-
 --YSQL
 --Schema: retail
-Create schema retail;
+Create schema if not exists retail;
 
 --Tables to support Microservices
 --1. Products: Product Catalog Publishing Microservice
@@ -12,15 +11,11 @@ CREATE TABLE retail.products
    title VARCHAR(64),
    author VARCHAR(64),
    description VARCHAR(200),
-   brand VARCHAR(64),
    categories VARCHAR(64),
    price numeric,
    imurl VARCHAR(200),
-   discount numeric,
-   num_reviews int,
-   num_stars int,
-   avg_stars double
-);   
+   discount numeric
+);
 
 CREATE UNIQUE INDEX product_idx1 ON retail.products(title);
 
@@ -47,33 +42,22 @@ CREATE TABLE retail.inventory
  (
       order_id  UUID PRIMARY KEY,
       sku       UUID NOT NULL,
-      user_id CHAR(10) NOT NULL,
+      accountid CHAR(10) NOT NULL,
       order_details jsonb,
-      order_time TIMESTAMP,
-      order_total double,
+      order_date TIMESTAMP,
+      order_total int,
       store_num int,
       store_region VARCHAR(64)
 );
  
 --User
 Drop table if exists retail.shopusers cascade;
-create table shopusers
+create table retail.shopusers
 (
-  user_id UUID PRIMARY KEY,
+  accountid UUID PRIMARY KEY,
   username VARCHAR(64) UNIQUE NOT NULL,
   passhash BYTEA NOT NULL,
   firstname VARCHAR(64) NOT NULL,
   lastname VARCHAR(64) NOT NULL,
   state VARCHAR(2) NOT NULL
-);
-
---Shopping cart
-Drop table if exists retail.shopping_cart cascade;
-CREATE TABLE retail.shopping_cart(
-  cart_key TEXT NOT NULL,
-  user_id TEXT NOT NULL,
-  asin TEXT NOT NULL,
-  time_added TEXT NOT NULL,
-  quantity INT NOT NULL,
-  PRIMARY KEY (cart_key)
 );
