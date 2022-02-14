@@ -65,14 +65,14 @@ You can [install YugabyteDB by following these instructions](https://docs.yugaby
 Now create the necessary tables as shown below. Note that these steps would take a few seconds.
 
 ```
-$ cd resources
-$ cqlsh -f schema.cql
+cd resources
+cqlsh -f schema.cql
 ```
 Next, load some sample data.
 
 ```
-$ cd resources
-$ ./dataload.sh
+cd resources
+./dataload.sh
 ```
 
 Create the postgres tables in `resources/schema.sql` for the YSQL tables.
@@ -82,8 +82,8 @@ Create the postgres tables in `resources/schema.sql` for the YSQL tables.
 You can do this as follows:
 
 ```
-$ cd eureka-server-local/
-$ mvn spring-boot:run
+cd eureka-server-local/
+mvn spring-boot:run
 ```
 
 Verify this is running by browsing to the [Spring Eureka Service Discovery dashboard](http://localhost:8761/).
@@ -93,8 +93,8 @@ Verify this is running by browsing to the [Spring Eureka Service Discovery dashb
 To run the products microservice, do the following in a separate shell:
 
 ```
-$ cd api-gateway-microservice/
-$ mvn spring-boot:run
+cd api-gateway-microservice/
+mvn spring-boot:run
 ```
 
 
@@ -103,8 +103,8 @@ $ mvn spring-boot:run
 To run the products microservice, do the following in a separate shell:
 
 ```
-$ cd products-microservice/
-$ mvn spring-boot:run
+cd products-microservice/
+mvn spring-boot:run
 ```
 
 ## Step 5: Start the checkout microservice
@@ -112,8 +112,8 @@ $ mvn spring-boot:run
 To run the products microservice, do the following in a separate shell:
 
 ```
-$ cd checkout-microservice/
-$ mvn spring-boot:run
+cd checkout-microservice/
+mvn spring-boot:run
 ```
 
 ## Step 6: Start the checkout microservice
@@ -121,8 +121,8 @@ $ mvn spring-boot:run
 To run the cart microservice, do the following in a separate shell:
 
 ```
-$ cd cart-microservice/
-$ mvn spring-boot:run
+cd cart-microservice/
+mvn spring-boot:run
 ```
 
 ## Step 7: Start the UI
@@ -142,7 +142,7 @@ The dockers images are built along with the binaries when `mvn -DskipTests packa
 To run the docker containers, run the following script, after you have [Installed and initialized YugabyteDB](#step-1-install-and-initialize-yugabyte-db):
 
 ```
-$ ./docker-run.sh
+./docker-run.sh
 ```
 Check all the services are registered on the [eureka-server](http://127.0.0.1:8761/).
 Once all services are registered, you can browse the marketplace app at [http://localhost:8080/](http://localhost:8080/).
