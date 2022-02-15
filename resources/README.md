@@ -24,7 +24,7 @@ $ chmod +x cassandra-loader
 Load the data in `cronos_products.csv` into YugabyteDB by running the following command:
 ```
 $ cassandra-loader -f cronos_products.csv -host localhost -schema \
-    "cronos.products(asin, title, price, imUrl, also_bought, also_viewed, bought_together, brand, categories)"
+    "cronos.products(sku, title, price, imUrl, also_bought, also_viewed, bought_together, brand, categories)"
 ```
 
 You should see output as follows:
@@ -39,7 +39,7 @@ Lines Processed: 	9  Rate: 	0.0
 Load the data in `cronos_product_rankings.csv` into YugabyteDB by running the following command:
 ```
 $ cassandra-loader -f cronos_product_rankings.csv -host localhost -schema \
-    "cronos.product_rankings(asin, category, sales_rank)"
+    "cronos.product_rankings(sku, category, sales_rank)"
 ```
 
 You should see the following as output:
@@ -53,14 +53,14 @@ Lines Processed: 	7  Rate: 	0.0
 
 - To query a product and get its details:
 ```
-cqlsh> SELECT * FROM cronos.products WHERE asin='0000031909';
+cqlsh> SELECT * FROM cronos.products WHERE sku='0000031909';
 ```
 
 - To query all the categories and the respective sales ranks for a given product:
 ```
-cqlsh> SELECT * FROM cronos.product_rankings WHERE asin='0000031909';
+cqlsh> SELECT * FROM cronos.product_rankings WHERE sku='0000031909';
 
- asin       | category     | sales_rank
+ sku       | category     | sales_rank
 ------------+--------------+------------
  0000031909 | Toys & Games |     201847
 
@@ -71,7 +71,7 @@ cqlsh> SELECT * FROM cronos.product_rankings WHERE asin='0000031909';
 ```
 cqlsh> SELECT * FROM cronos.product_rankings WHERE category='Toys & Games' LIMIT 10;
 
- category     | sales_rank | asin
+ category     | sales_rank | sku
 --------------+------------+------------
  Toys & Games |     201847 | 0000031909
  Toys & Games |     211836 | 0000031852

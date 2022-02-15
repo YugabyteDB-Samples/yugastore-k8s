@@ -27,9 +27,9 @@ public class ProductCatalogController {
   @Autowired
   ProductRankingService productRankingService;
 
-  @RequestMapping(method = RequestMethod.GET, value = "/product/{asin}", produces = "application/json")
-  public ProductMetadata getProductDetails(@PathVariable String asin) {
-    ProductMetadata productMetadata = productService.findById(asin).get();
+  @RequestMapping(method = RequestMethod.GET, value = "/product/{sku}", produces = "application/json")
+  public ProductMetadata getProductDetails(@PathVariable String sku) {
+    ProductMetadata productMetadata = productService.findById(sku).get();
     return productMetadata;
   }
 

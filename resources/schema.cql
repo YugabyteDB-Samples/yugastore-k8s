@@ -2,10 +2,10 @@
 CREATE KEYSPACE IF NOT EXISTS cronos;
 
 
-// Table that stores all the static attributes of a product, queries are done by asin.
+// Table that stores all the static attributes of a product, queries are done by sku.
 //
 CREATE TABLE cronos.products (
-    asin text PRIMARY KEY,
+    sku text PRIMARY KEY,
     title text,
     description text,
     price double,
@@ -30,7 +30,7 @@ CREATE TABLE cronos.products (
 // Table to store the rankings for the various categories of a product.
 //
 CREATE TABLE cronos.product_rankings (
-    asin text,
+    sku text,
     category text,
     sales_rank int,
     title text,
@@ -39,7 +39,7 @@ CREATE TABLE cronos.product_rankings (
     num_reviews int,
     num_stars int,
     avg_stars double,
-    PRIMARY KEY (asin, category)
+    PRIMARY KEY (sku, category)
 ) WITH CLUSTERING ORDER BY (category ASC)
     AND default_time_to_live = 0
     AND transactions = {'enabled': 'false'};
@@ -64,7 +64,7 @@ CREATE TABLE cronos.orders (
 
 // Product Inventory Table
 CREATE TABLE cronos.product_inventory (
-    asin text PRIMARY KEY,
+    sku text PRIMARY KEY,
     quantity int
 ) WITH default_time_to_live = 0
     AND transactions = {'enabled': 'true'};

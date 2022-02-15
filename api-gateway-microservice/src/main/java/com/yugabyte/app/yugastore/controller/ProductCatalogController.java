@@ -35,9 +35,9 @@ public class ProductCatalogController {
   /**
    * Return details of a single product.
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/product/{asin}", produces = "application/json")
-  public @ResponseBody ResponseEntity<ProductMetadata> getProductDetails(@PathVariable("asin") String asin) {
-    ProductMetadata productMetadata = productCatalogServiceRest.getProductDetails(asin);
+  @RequestMapping(method = RequestMethod.GET, value = "/product/{sku}", produces = "application/json")
+  public @ResponseBody ResponseEntity<ProductMetadata> getProductDetails(@PathVariable("sku") String sku) {
+    ProductMetadata productMetadata = productCatalogServiceRest.getProductDetails(sku);
     return new ResponseEntity<ProductMetadata>(productMetadata, HttpStatus.OK);
   }
 

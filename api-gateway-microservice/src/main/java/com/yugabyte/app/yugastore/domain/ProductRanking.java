@@ -2,7 +2,7 @@ package com.yugabyte.app.yugastore.domain;
 
 public class ProductRanking{
 
-	private ProductRankingKey asin;
+	private ProductRankingKey sku;
 
 	private int salesRank;
 	
@@ -27,7 +27,7 @@ public class ProductRanking{
 	}
 
 	public ProductRankingKey getId() {
-		return asin;
+		return sku;
 	}
 
 	public String getTitle() {
@@ -55,7 +55,7 @@ public class ProductRanking{
 	}
 
 	public void setId(ProductRankingKey id) {
-		this.asin = id;
+		this.sku = id;
 	}
 
 	public void setTitle(String title) {

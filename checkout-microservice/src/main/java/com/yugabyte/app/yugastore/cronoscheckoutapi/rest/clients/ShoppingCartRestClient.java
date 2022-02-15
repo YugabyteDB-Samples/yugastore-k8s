@@ -11,14 +11,14 @@ public interface ShoppingCartRestClient {
 
   @RequestMapping("/cart-microservice/shoppingCart/addProduct")
   String addProductToCart(@RequestParam("userid") String userId,
-    @RequestParam("asin") String asin);
+    @RequestParam("sku") String sku);
 
   @RequestMapping("/cart-microservice/shoppingCart/productsInCart")
   Map<String, Integer> getProductsInCart(@RequestParam("userid") String userId);
 
   @RequestMapping("/cart-microservice/shoppingCart/removeProduct")
   String removeProductFromCart(@RequestParam("userid") String userId,
-    @RequestParam("asin") String asin);
+    @RequestParam("sku") String sku);
 
   @RequestMapping("/cart-microservice/shoppingCart/clearCart")
   String clearCart(@RequestParam("userid") String userId);

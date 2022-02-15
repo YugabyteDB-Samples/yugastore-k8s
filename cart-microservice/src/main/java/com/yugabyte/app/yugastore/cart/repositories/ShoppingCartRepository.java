@@ -17,19 +17,19 @@ public interface ShoppingCartRepository extends CrudRepository<ShoppingCart, Str
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE shopping_cart SET quantity = quantity + 1 WHERE user_id = ?1 AND asin =?2")
-	int updateQuantityForShoppingCart(String userId, String asin);
+	@Query("UPDATE shopping_cart SET quantity = quantity + 1 WHERE user_id = ?1 AND sku =?2")
+	int updateQuantityForShoppingCart(String userId, String sku);
 	
-	@Query("SELECT quantity FROM shopping_cart WHERE user_id = ?1 AND asin = ?2")
-	Optional<Integer> findByUserIdAndAsin(String userId, String asin);
+	@Query("SELECT quantity FROM shopping_cart WHERE user_id = ?1 AND sku = ?2")
+	Optional<Integer> findByUserIdAndSku(String userId, String sku);
 	
 	@Query("SELECT sc FROM shopping_cart sc WHERE sc.userId = ?1")
 	Optional<List<ShoppingCart>> findProductsInCartByUserId(String userId);
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE shopping_cart SET quantity = quantity - 1 WHERE user_id = ?1 AND asin =?2")
-	int decrementQuantityForShoppingCart(String userId, String asin);
+	@Query("UPDATE shopping_cart SET quantity = quantity - 1 WHERE user_id = ?1 AND sku =?2")
+	int decrementQuantityForShoppingCart(String userId, String sku);
 	
 	@Modifying
 	@Transactional

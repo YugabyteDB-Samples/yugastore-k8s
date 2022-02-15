@@ -44,7 +44,7 @@ class CartProducts extends Component {
   fetchProductDetails(product_id) {
     if (!this.state.products.product_id) {
       this.state.product_id = "" + product_id;
-      var url = '/products/details?asin=' + product_id;
+      var url = '/products/details?sku=' + product_id;
       console.log("Fetching url: " + url);
       fetch(url)
         .then(res => res.json())
@@ -68,7 +68,7 @@ class CartProducts extends Component {
                   <img src={product.imUrl} alt="product" />
                 </div>
                 <div className="details">
-                  <Link to={`/item/${product.id.asin || product.id}`}>{product.title}</Link>
+                  <Link to={`/item/${product.id.sku || product.id}`}>{product.title}</Link>
                 </div>
     
                 <div className="pricing">

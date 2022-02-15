@@ -19,8 +19,8 @@ public class ShoppingCartController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/shoppingCart/addProduct", produces = "application/json")
 	public String addProductToCart(@RequestParam("userid") String userId, 
-			@RequestParam("asin") String asin) {
-		shoppingCart.addProductToShoppingCart(userId, asin);
+			@RequestParam("sku") String sku) {
+		shoppingCart.addProductToShoppingCart(userId, sku);
 		return String.format("Added to Cart");
 	}
 	
@@ -31,8 +31,8 @@ public class ShoppingCartController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/shoppingCart/removeProduct", produces = "application/json")
 	public String removeProductFromCart(@RequestParam("userid") String userId, 
-			@RequestParam("asin") String asin) {
-		shoppingCart.removeProductFromCart(userId, asin);
+			@RequestParam("sku") String sku) {
+		shoppingCart.removeProductFromCart(userId, sku);
 		return String.format("Removing from Cart");
 	}
 	

@@ -30,13 +30,13 @@ public class CronosProductsController {
 	}
 
   @RequestMapping(method = RequestMethod.GET, value = "/products/details")
-  public @ResponseBody String getProductDetails(@RequestParam("asin") String asin) {
-    return dashboardRestConsumer.getProductDetails(asin);
+  public @ResponseBody String getProductDetails(@RequestParam("sku") String sku) {
+    return dashboardRestConsumer.getProductDetails(sku);
   }
 
   @PostMapping("/cart/add")
-	public @ResponseBody String addProductToCart(@RequestParam("asin") String asin) {
-		return dashboardRestConsumer.addProductToCart(asin);
+	public @ResponseBody String addProductToCart(@RequestParam("sku") String sku) {
+		return dashboardRestConsumer.addProductToCart(sku);
 	}
   
   @PostMapping("/cart/get")
@@ -50,8 +50,8 @@ public class CronosProductsController {
 	}
 
   @RequestMapping(method = RequestMethod.POST, value = "/cart/remove")
-	public @ResponseBody String removeProductFromCart(@RequestParam("asin") String asin) {
-		return dashboardRestConsumer.removeProductFromCart(asin);
+	public @ResponseBody String removeProductFromCart(@RequestParam("sku") String sku) {
+		return dashboardRestConsumer.removeProductFromCart(sku);
 	}
 
   @RequestMapping(method = RequestMethod.POST, value = "/cart/getCart")

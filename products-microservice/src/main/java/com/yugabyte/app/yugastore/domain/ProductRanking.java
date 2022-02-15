@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class ProductRanking{
 
 	@PrimaryKey
-	private ProductRankingKey asin;
+	private ProductRankingKey sku;
 
 	@Column(value = "sales_rank")
 	private int salesRank;
@@ -35,7 +35,7 @@ public class ProductRanking{
 	}
 
 	public ProductRankingKey getId() {
-		return asin;
+		return sku;
 	}
 
 	public String getTitle() {
@@ -63,7 +63,7 @@ public class ProductRanking{
 	}
 
 	public void setId(ProductRankingKey id) {
-		this.asin = id;
+		this.sku = id;
 	}
 
 	public void setTitle(String title) {

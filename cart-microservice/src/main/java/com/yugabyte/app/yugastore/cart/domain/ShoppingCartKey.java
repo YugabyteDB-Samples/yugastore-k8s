@@ -16,24 +16,24 @@ public class ShoppingCartKey implements Serializable {
 	@Column(name = "user_id")
 	private String id;
 
-	@Column(name = "asin")
-	private String asin;
+	@Column(name = "sku")
+	private String sku;
 	
 	public ShoppingCartKey() {
 		
 	}
 	
-	public ShoppingCartKey(String id, String asin) {
+	public ShoppingCartKey(String id, String sku) {
 		this.id = id;
-		this.asin = asin;
+		this.sku = sku;
 	}
 
-	public String getAsin() {
-		return asin;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setAsin(String asin) {
-		this.asin = asin;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public String getId() {
@@ -49,8 +49,8 @@ public class ShoppingCartKey implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : asin.hashCode());
-		result = prime * result + ((asin == null) ? 0 : id.hashCode());
+		result = prime * result + ((id == null) ? 0 : sku.hashCode());
+		result = prime * result + ((sku == null) ? 0 : id.hashCode());
 		return result;
 	}
 

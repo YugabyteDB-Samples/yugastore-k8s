@@ -25,8 +25,8 @@ public class ProductCatalogServiceRestImpl implements ProductCatalogServiceRest 
   }
 
   @Override
-  public ProductMetadata getProductDetails(String asin) {
-    ProductMetadata result = productCatalogRestClient.getProductDetails(asin);
+  public ProductMetadata getProductDetails(String sku) {
+    ProductMetadata result = productCatalogRestClient.getProductDetails(sku);
     return result;
   }
 

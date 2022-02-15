@@ -13,8 +13,8 @@ import com.yugabyte.app.yugastore.domain.ProductRanking;
 @FeignClient("products-microservice")
 public interface ProductCatalogRestClient {
 
-  @RequestMapping("/products-microservice/product/{asin}")
-  ProductMetadata getProductDetails(@PathVariable("asin") String asin);
+  @RequestMapping("/products-microservice/product/{sku}")
+  ProductMetadata getProductDetails(@PathVariable("sku") String sku);
 
   @RequestMapping("/products-microservice/products")
   List<ProductMetadata> getProducts(@RequestParam("limit") int limit,

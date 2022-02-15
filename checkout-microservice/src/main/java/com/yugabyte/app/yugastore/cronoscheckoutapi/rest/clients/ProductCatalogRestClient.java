@@ -14,8 +14,8 @@ import com.yugabyte.app.yugastore.cronoscheckoutapi.domain.ProductRanking;
 
 public interface ProductCatalogRestClient {
 
-  @RequestMapping("/products-microservice/product/{asin}")
-  ProductMetadata getProductDetails(@PathVariable("asin") String asin);
+  @RequestMapping("/products-microservice/product/{sku}")
+  ProductMetadata getProductDetails(@PathVariable("sku") String sku);
 
   @RequestMapping("/products-microservice/products")
   List<ProductMetadata> getProducts(@RequestParam("limit") int limit,

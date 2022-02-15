@@ -33,11 +33,11 @@ public class ProductMetadataRestRepo {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/productmetadata/relatedproducts")
-    public @ResponseBody ResponseEntity<?> getRelatedProducts(@RequestParam("asin")String asin) {
+    public @ResponseBody ResponseEntity<?> getRelatedProducts(@RequestParam("sku")String sku) {
 
-    	ProductMetadata productMetadata = repository.findById(asin).get();
+    	ProductMetadata productMetadata = repository.findById(sku).get();
     	ImageInfo imageInfo = generatedRelatedProductImagesList(productMetadata);
-    	imageInfo.add(linkTo( methodOn(ProductMetadataRestRepo.class).getRelatedProducts(asin)).withSelfRel());
+    	imageInfo.add(linkTo( methodOn(ProductMetadataRestRepo.class).getRelatedProducts(sku)).withSelfRel());
         return new ResponseEntity<ImageInfo>(imageInfo, HttpStatus.OK);
 
     }
@@ -47,26 +47,26 @@ public class ProductMetadataRestRepo {
     	ImageInfo imageInfo = new ImageInfo();
 
     	try {
-    		imageInfo.setAlsoBought(retrieveImageUrlsFromAsin(productMetadata.getAlso_bought()));
-//    		imageInfo.setAlsoViewed(retrieveImageUrlsFromAsin(productMetadata.getRelated().getAlso_viewed()));
-    		imageInfo.setBoughtTogether(retrieveImageUrlsFromAsin(productMetadata.getBought_together()));
+    		imageInfo.setAlsoBought(retrieveImageUrlsFromSku(productMetadata.getAlso_bought()));
+//    		imageInfo.setAlsoViewed(retrieveImageUrlsFromSku(productMetadata.getRelated().getAlso_viewed()));
+    		imageInfo.setBoughtTogether(retrieveImageUrlsFromSku(productMetadata.getBought_together()));
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
     	return imageInfo;
     }
 
-    private List<String> retrieveImageUrlsFromAsin(List<String> asinIds) {
+    private List<String> retrieveImageUrlsFromSku(List<String> skuIds) {
 
     	List<String> result = new ArrayList<String>();
-    	if(asinIds != null && asinIds.size() > 0) {
+    	if(skuIds != null && skuIds.size() > 0) {
     		int count = 0;
     		Optional<ProductMetadata> temp;
-    		for(String asin: asinIds) {
+    		for(String sku: skuIds) {
     			if (count > 10) {
     				return result;
     			} else {
-    				temp = repository.findById(asin);
+    				temp = repository.findById(sku);
     				if ( temp.isPresent() && !StringUtils.isEmpty(temp.get().getImUrl())) {
 	    				result.add(temp.get().getImUrl());
 	    				count++;

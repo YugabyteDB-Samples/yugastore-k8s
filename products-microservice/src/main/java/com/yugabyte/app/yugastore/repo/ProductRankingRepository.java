@@ -10,9 +10,9 @@ import com.yugabyte.app.yugastore.domain.ProductRanking;
 
 public interface ProductRankingRepository extends CassandraRepository<ProductRanking, String> {
 	
-	@Query("select * from cronos.product_rankings where asin=?0")
+	@Query("select * from cronos.product_rankings where sku=?0")
 	@RestResource(path = "product", rel = "product")
-	Optional<ProductRanking> findProductRankingById(String asin);
+	Optional<ProductRanking> findProductRankingById(String sku);
 	
 	@Query("SELECT * FROM cronos.product_rankings where category =?0 limit ?1 offset ?2")
 	@RestResource(path = "category", rel = "category")

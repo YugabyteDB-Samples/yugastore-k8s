@@ -35,53 +35,53 @@ public class ShoppingCartImpl {
 	 *
 	 * @param product
 	 */
-	public void addProductToShoppingCart(String userId, String asin) {
+	public void addProductToShoppingCart(String userId, String sku) {
 
-		ShoppingCartKey currentKey = new ShoppingCartKey(userId, asin);
-		String shoppingCartKeyStr = userId + "-" + asin;
+		ShoppingCartKey currentKey = new ShoppingCartKey(userId, sku);
+		String shoppingCartKeyStr = userId + "-" + sku;
 		if (shoppingCartRepository.findById(shoppingCartKeyStr).isPresent()) {
-			shoppingCartRepository.updateQuantityForShoppingCart(userId, asin);
-			System.out.println("Adding product: " + asin);
+			shoppingCartRepository.updateQuantityForShoppingCart(userId, sku);
+			System.out.println("Adding product: " + sku);
 		} else {
 			ShoppingCart currentShoppingCart = createCartObject(currentKey);
 			shoppingCartRepository.save(currentShoppingCart);
-			System.out.println("Adding product: " + asin);
+			System.out.println("Adding product: " + sku);
 		}
 	}
 
 	public Map<String, Integer> getProductsInCart(String userId) {
 
-		Map<String, Integer> productsInCartAsin = new HashMap<String, Integer>();
+		Map<String, Integer> productsInCartSku = new HashMap<String, Integer>();
 
 		if (shoppingCartRepository.findProductsInCartByUserId(userId).isPresent()) {
 
 			List<ShoppingCart> productsInCart = shoppingCartRepository.findProductsInCartByUserId(userId).get();
 			for (ShoppingCart item : productsInCart) {
-				productsInCartAsin.put(item.getAsin(), item.getQuantity());
+				productsInCartSku.put(item.getSku(), item.getQuantity());
 			}
 
 		}
-		return productsInCartAsin;
+		return productsInCartSku;
 	}
 
-	public void removeProductFromCart(String userId, String asin) {
-		String shoppingCartKeyStr = userId + "-" + asin;
+	public void removeProductFromCart(String userId, String sku) {
+		String shoppingCartKeyStr = userId + "-" + sku;
 		if (shoppingCartRepository.findById(shoppingCartKeyStr).isPresent()) {
 			if (shoppingCartRepository.findById(shoppingCartKeyStr).get().getQuantity() > 1) {
-				shoppingCartRepository.decrementQuantityForShoppingCart(userId, asin);
-				System.out.println("Decrementing product: " + asin + " quantity");
+				shoppingCartRepository.decrementQuantityForShoppingCart(userId, sku);
+				System.out.println("Decrementing product: " + sku + " quantity");
 			} else if (shoppingCartRepository.findById(shoppingCartKeyStr).get().getQuantity() == 1) {
 				shoppingCartRepository.deleteById(shoppingCartKeyStr);
-				System.out.println("Removing product: " + asin + " since it was qty 1");
+				System.out.println("Removing product: " + sku + " since it was qty 1");
 			}
 		}
 	}
 
 	private ShoppingCart createCartObject(ShoppingCartKey currentKey) {
 		ShoppingCart currentShoppingCart = new ShoppingCart();
-		currentShoppingCart.setCartKey(currentKey.getId() + "-" + currentKey.getAsin());
+		currentShoppingCart.setCartKey(currentKey.getId() + "-" + currentKey.getSku());
 		currentShoppingCart.setUserId(currentKey.getId());
-		currentShoppingCart.setAsin(currentKey.getAsin());
+		currentShoppingCart.setSku(currentKey.getSku());
 		LocalDateTime currentTime = LocalDateTime.now();
 		currentShoppingCart.setTime_added(currentTime.toString());
 		currentShoppingCart.setQuantity(DEFAULT_QUANTITY);

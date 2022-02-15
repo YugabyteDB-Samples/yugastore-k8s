@@ -43,9 +43,9 @@ public class ShoppingCartController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/shoppingCart/addProduct", produces = "application/json")
-	public ResponseEntity<?> addProductToCart(@RequestParam("asin") String asin) {
+	public ResponseEntity<?> addProductToCart(@RequestParam("sku") String sku) {
 		String userId = "u1001";
-		shoppingCartServiceRest.addProduct(userId, asin);
+		shoppingCartServiceRest.addProduct(userId, sku);
 		Map<String, Integer> productsInCart = shoppingCartServiceRest.getProductsInCart(userId);
 
 		if (productsInCart == null) {
@@ -56,9 +56,9 @@ public class ShoppingCartController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/shoppingCart/removeProduct", produces = "application/json")
-	public ResponseEntity<Map<String, Integer>> removeProductFromCart(@RequestParam("asin") String asin) {
+	public ResponseEntity<Map<String, Integer>> removeProductFromCart(@RequestParam("sku") String sku) {
 		String userId = "u1001";
-		shoppingCartServiceRest.removeProduct(userId, asin);
+		shoppingCartServiceRest.removeProduct(userId, sku);
 		Map<String, Integer> productsInCart = shoppingCartServiceRest.getProductsInCart(userId);
 
 		if (productsInCart == null) {

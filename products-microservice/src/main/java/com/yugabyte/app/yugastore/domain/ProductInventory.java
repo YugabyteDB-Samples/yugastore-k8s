@@ -7,7 +7,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table(value = "product_inventory")
 public class ProductInventory {
 
-   @PrimaryKey(value="asin")
+   @PrimaryKey(value="sku")
    private String id;
    
    @Column(value = "quantity")

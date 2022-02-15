@@ -9,20 +9,20 @@ public class ProductRankingKey implements Serializable {
 	 */
 	private static final long serialVersionUID = -6646128061564873843L;
 
-	private String asin;
+	private String sku;
 	
 	private String category;
 
 	public String getAsin() {
-		return asin;
+		return sku;
 	}
 
 	public String getCategory() {
 		return category;
 	}
 
-	public void setId(String asin) {
-		this.asin = asin;
+	public void setId(String sku) {
+		this.sku = sku;
 	}
 
 	public void setCategory(String category) {
@@ -33,8 +33,8 @@ public class ProductRankingKey implements Serializable {
 	  public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
-	    result = prime * result + ((asin == null) ? 0 : asin.hashCode());
-	    result = prime * result + ((asin == null) ? 0 : asin.hashCode());
+	    result = prime * result + ((sku == null) ? 0 : sku.hashCode());
+	    result = prime * result + ((sku == null) ? 0 : sku.hashCode());
 	    return result;
 	  }
 	  
@@ -47,11 +47,11 @@ public class ProductRankingKey implements Serializable {
 	    if (getClass() != obj.getClass())
 	      return false;
 	    ProductRankingKey other = (ProductRankingKey) obj;
-	    if (asin == null) {
-	      if (other.asin != null)
+	    if (sku == null) {
+	      if (other.sku != null)
 	        return false;
 	      else {
-	    	  if (!asin.equals(other.asin)) {
+	    	  if (!sku.equals(other.sku)) {
 	    		  return false;
 	    	  }
 	      }

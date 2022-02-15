@@ -102,9 +102,9 @@ class Products extends Component {
                   stars[4] = (product.avg_stars < 5) ? "star_half" : "star";
                 }
                 return (
-                  <Col lg={3} md={6} xs={12} key={product.id.asin || product.id}>
+                  <Col lg={3} md={6} xs={12} key={product.id.sku || product.id}>
                     <div className="item" >
-                      <Link to={`/item/${product.id.asin || product.id}`}>
+                      <Link to={`/item/${product.id.sku || product.id}`}>
                         <div className="product-img" style={{backgroundImage: `url(${product.imUrl})`}}></div>
                         <div className="product-details">
                           <div className="reviews-add">

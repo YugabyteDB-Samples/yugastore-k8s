@@ -7,7 +7,7 @@ import com.yugabyte.app.yugastore.domain.ProductRanking;
 
 public interface ProductRankingService {
 
-	Optional<ProductRanking> findProductRankingById(String asin);
+	Optional<ProductRanking> findProductRankingById(String sku);
 	
 	List<ProductRanking> getProductsByCategory(String category, int limit, int offset);
 	

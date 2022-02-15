@@ -23,9 +23,9 @@ public class ShoppingCartServiceRestImpl implements ShoppingCartServiceRest {
 	}
 
 	@Override
-	public String addProduct(String userId, String asin) {
+	public String addProduct(String userId, String sku) {
 
-		String result = shoppingCartRestClient.addProductToCart(userId, asin);
+		String result = shoppingCartRestClient.addProductToCart(userId, sku);
 		return result;
 	}
 
@@ -37,8 +37,8 @@ public class ShoppingCartServiceRestImpl implements ShoppingCartServiceRest {
 	}
 
 	@Override
-	public String removeProduct(String userId, String asin) {
-		String result = shoppingCartRestClient.removeProductFromCart(userId, asin);
+	public String removeProduct(String userId, String sku) {
+		String result = shoppingCartRestClient.removeProductFromCart(userId, sku);
 		return result;
 	}
 

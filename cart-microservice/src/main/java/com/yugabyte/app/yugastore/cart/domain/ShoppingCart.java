@@ -19,8 +19,8 @@ public class ShoppingCart {
 	@Column(name = "user_id")
 	private String userId;
 	
-	@Column(name = "asin")
-	private String asin;
+	@Column(name = "sku")
+	private String sku;
 
 	@Column(name = "time_added")
 	private String time_added;
@@ -44,12 +44,12 @@ public class ShoppingCart {
 		this.userId = userId;
 	}
 
-	public String getAsin() {
-		return asin;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setAsin(String asin) {
-		this.asin = asin;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 	
 	public String getTime_added() {

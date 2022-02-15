@@ -7,7 +7,7 @@ import com.yugabyte.app.yugastore.domain.ProductRanking;
 
 public interface ProductCatalogServiceRest {
   
-  ProductMetadata getProductDetails(String asin);
+  ProductMetadata getProductDetails(String sku);
 
   List<ProductMetadata> getProducts(int limit, int offset);
 

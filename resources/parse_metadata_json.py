@@ -31,7 +31,7 @@ def parse_and_write_metadata(product, f_products, f_rankings, f_inventory):
     default_price = round(random.uniform(20,800), 2)
 
     if "description" in product:
-        f_products.write(product["asin"])
+        f_products.write(product["sku"])
         f_products.write(",")
         if "title" in product:
             f_products.write(safe_encode(product["title"]))
@@ -73,13 +73,13 @@ def parse_and_write_metadata(product, f_products, f_rankings, f_inventory):
         f_products.write(str(avg_stars))
         f_products.write("\n")
         #Product Inventory
-        f_inventory.write(product["asin"])
+        f_inventory.write(product["sku"])
         f_inventory.write(",")
         f_inventory.write(str(random.randint(100, 1000)))
         f_inventory.write("\n")
         if ("salesRank" in product):
             for category, rank in list(product["salesRank"].items()):
-                f_rankings.write(product["asin"])
+                f_rankings.write(product["sku"])
                 f_rankings.write(",")
                 f_rankings.write(safe_encode(category))
                 f_rankings.write(",")
@@ -110,7 +110,7 @@ print(("Processing file: %s " % metadata_file))
 # This is the file to which the product data is written.
 f_products = open('cronos_products.csv', 'w')
 
-# This is the file to which the product asin, categories and sales rank related info is written.
+# This is the file to which the product sku, categories and sales rank related info is written.
 f_rankings = open('cronos_product_rankings.csv', 'w')
 
 # This is the file to which the product inventory is written
@@ -121,9 +121,9 @@ f_inventory = open('cronos_product_inventory.csv', 'w')
 # Read and parse the metadata input file one line at a time. The output is 2 csv files, which have
 # the following columns:
 #   cronos_products.csv:
-#     asin, title, price, imUrl, also_bought, also_viewed, bought_together, brand, categories
+#     sku, title, price, imUrl, also_bought, also_viewed, bought_together, brand, categories
 #   cronos_product_rankings.csv
-#     asin, category, sales_rank
+#     sku, category, sales_rank
 #
 with open(metadata_file) as f:
     for line in f:

@@ -21,9 +21,9 @@ public class ProductRankingServiceImpl implements ProductRankingService {
 	}
 
 	@Override
-	public Optional<ProductRanking> findProductRankingById(String asin) {
+	public Optional<ProductRanking> findProductRankingById(String sku) {
 		
-		return productRankingRepository.findProductRankingById(asin);
+		return productRankingRepository.findProductRankingById(sku);
 	}
 
 	@Override

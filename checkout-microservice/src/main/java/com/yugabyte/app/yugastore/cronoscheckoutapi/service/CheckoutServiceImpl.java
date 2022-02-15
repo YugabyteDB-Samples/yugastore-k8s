@@ -64,7 +64,7 @@ public class CheckoutServiceImpl {
 					throw new NotEnoughProductsInStockException(productDetails.getTitle(), productInventory.getQuantity());
 
 				updateCartpreparedStatement.append(" UPDATE product_inventory SET quantity = quantity - "
-						+ entry.getValue() + " where asin = '" + entry.getKey() + "' ;");
+						+ entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
 				orderDetails.append(" Product: " + productDetails.getTitle() + ", Quantity: " + entry.getValue() + ";");
 			}
 			double orderTotal = getTotal(products);

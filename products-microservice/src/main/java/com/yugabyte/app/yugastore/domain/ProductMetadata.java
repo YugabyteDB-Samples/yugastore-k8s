@@ -16,9 +16,9 @@ import org.springframework.hateoas.RepresentationModel;
 public class ProductMetadata{
 
 
-    @PrimaryKey(value="asin")
+    @PrimaryKey(value="sku")
     private String id;
-  //String asin;
+  //String sku;
 
 	String brand;
 

@@ -59,9 +59,9 @@ public class DashboardRestConsumer {
 	/**
 	 * Loads the details page of any product.
 	 */
-	public String getProductDetails(String asin) {
+	public String getProductDetails(String sku) {
 
-		String restURL = restUrlBase + "product/" + asin;
+		String restURL = restUrlBase + "product/" + sku;
 		ResponseEntity<String> rateResponse =
 		  restTemplate.exchange(
 		  	restURL,
@@ -70,11 +70,11 @@ public class DashboardRestConsumer {
 		return productDetailsJsonResponse;
 	}	
 
-	public String addProductToCart(String asin) {
+	public String addProductToCart(String sku) {
 
 		String restURL = restUrlBase + "shoppingCart/addProduct";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		params.add("asin", asin);
+		params.add("sku", sku);
 		
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, null);
@@ -87,11 +87,11 @@ public class DashboardRestConsumer {
 		return addProductJsonResponse;
 	}
 
-	public String removeProductFromCart(String asin) {
+	public String removeProductFromCart(String sku) {
 
 		String restURL = restUrlBase + "shoppingCart/removeProduct";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		params.add("asin", asin);
+		params.add("sku", sku);
 		
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, null);
