@@ -17,8 +17,8 @@ class Footer extends PureComponent {
         <div className="footer-block1">
           <Logo mode={'dark'} />
 
-          <div>This app is made with YugaByte DB. <br/>Read more on <NavLink to="http://yugabyte.com">yugabyte.com</NavLink></div>
-          <p>© Copyright Yugabyte 2018</p>
+          <div>This app is made with YugabyteDB. <br/>Read more on <NavLink to="http://yugabyte.com">yugabyte.com</NavLink></div>
+          <p>© Copyright Yugabyte 2022</p>
         </div>
         <div className="footer-block2">
           <h6>Categories</h6>
