@@ -130,8 +130,8 @@ mvn spring-boot:run
 To do this, simply run `npm start` from the `frontend` directory in a separate shell:
 
 ```
-$ cd react-ui
-$ mvn spring-boot:run
+cd react-ui
+mvn spring-boot:run
 ```
 
 Now browse to the marketplace app at [http://localhost:8080/](http://localhost:8080/).
