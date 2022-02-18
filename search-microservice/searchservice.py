@@ -11,20 +11,8 @@ import os
 import sys
 import re
 
-##import bcrypt
-##import jwt
 from flask import Flask, jsonify, request
 import bleach
-##from sqlalchemy.exc import OperationalError, SQLAlchemyError
-##from db import UserDb
-
-##from opentelemetry import trace
-##from opentelemetry.sdk.trace.export import BatchExportSpanProcessor
-##from opentelemetry.sdk.trace import TracerProvider
-##from opentelemetry.propagators import set_global_textmap
-##from opentelemetry.exporter.cloud_trace import CloudTraceSpanExporter
-##from opentelemetry.tools.cloud_trace_propagator import CloudTraceFormatPropagator
-##from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 from redisearch import Client
 
