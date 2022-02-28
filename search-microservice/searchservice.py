@@ -14,7 +14,7 @@ import re
 from flask import Flask, jsonify, request
 import bleach
 
-from redisearch import Client
+from redisearch import Client, Query
 
 def create_app():
     """Flask application factory to create instances
@@ -38,19 +38,27 @@ def create_app():
         """
 
         app.logger.debug('Request received.')
+
+        # parse search terms in form data
         req = {k: bleach.clean(v) for k, v in request.form.items()}
+        search_term = req['search']
+        limit = int(req['limit']) if 'limit' in req else 0
+        offset = int(req['offset']) if 'offset' in req else 0
 
         # query redis
-        res = client.search(req['search'])
+        query = Query(search_term).paging(offset, limit) if limit > 0 else Query(search_term)
+        res = client.search(query)
 
         # marshall results
-        results = [{'sku'         : res.docs[i].sku,
-                    'title'       : res.docs[i].title,
-                    'description' : res.docs[i].description,
-                    'categories'  : res.docs[i].categories }
-                   for i in range(res.total) ]
+        results = [{'sku'         : res.docs[i].sku,     # otherwise fatal
+                    'title'       : getattr(res.docs[i], 'title', ''),
+                    'description' : getattr(res.docs[i], 'description', ''),
+                    'categories'  : getattr(res.docs[i], 'categories', '')
+                    } for i in range(len(res.docs)) ]
 
-        return jsonify(results), 200
+        response = jsonify(results)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 200
 
     @atexit.register
     def _shutdown():
@@ -64,7 +72,7 @@ def create_app():
     app.logger.info('Starting search service.')
 
     # Configure database connection
-    client = Client("ft", host="localhost", port=6380)
+    client = Client("ft", host="localhost", port=6380) # XXX
     try:
         client.redis.ping()
     except (ConnectionRefusedError, redis.exceptions.ConnectionError):

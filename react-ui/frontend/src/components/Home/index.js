@@ -20,9 +20,10 @@ class Home extends Component {
       <div>
         <Hero/>
         <div className="paragraph">
+          <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Search"}>Search</Link></span>} category="Search" limit={4}/>
           <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Books"}>Books</Link></span>} category="Books" limit={4}/>
           <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Music"}>Music</Link></span>} category="Music" limit={4}/>
-          <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Books"}>Beauty</Link></span>} category="Beauty" limit={4}/>
+          <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Beauty"}>Beauty</Link></span>} category="Beauty" limit={4}/>
           <Products addItemToCart={this.props.addItemToCart} isInline={true} name={<span>Bestsellers in <Link to={"/Electronics"}>Electronics</Link></span>} category="Electronics" limit={4}/>
         </div>
       </div>

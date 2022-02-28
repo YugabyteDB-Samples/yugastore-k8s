@@ -9,7 +9,10 @@ import { Button } from '../../components/common';
 import './index.css';
 
 class Products extends Component {
-  state = {current_query: "", category: undefined, products: [], isUpdating: true}
+  constructor(props) {
+      super(props);
+      this.state = {current_query: "", category: undefined, products: [], isUpdating: true};
+  }
 
   componentDidMount() {
     const category = this.props.category || this.props.match.params.category;
@@ -37,19 +40,60 @@ class Products extends Component {
     let url, query = '';
     const limit = this.props.limit || 12 || nextLimit;
     const offset = this.props.offset || nextOffset || 0;
-    if (nextCategory) {
-      url = '/products/category/' + nextCategory + '?';
-    }
-    else {
-      url = '/products?';
-    }
-    query += "limit=" + limit + '&';
-    query += "offset=" + offset;
-    this.setState({ current_query: url+query })
-    if (this.state.current_query !== url+query) {
-      fetch(url+query)
-        .then(res => res.json())
-        .then(products => this.setState({ products, limit, offset, isUpdating: false }));
+
+    if ('Search' == nextCategory) {
+        url = 'http://localhost:8888/search'; // XXX
+        let body = 'search=spoon' + "&limit=" + limit + '&offset=' + offset;
+
+        this.setState({ current_query: url+query }); // TODO: fix pagination
+
+        if (this.state.current_query !== url+query) {
+            try {
+                // call search microservice
+                fetch(url+query, { method: 'post', body: body, mode: 'cors', // XXX do I need to encode or decode?
+                      headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                  })
+                  .then(res => res.json())
+                  .then(json => {
+                    // fetch each product detail
+                    let promises = [];
+                    for (const element of json) {
+                        promises.push(fetch('/products/details?sku=' + element.sku, {mode: 'cors'}) // XXX need cors here?
+                            .then(res => res.json()));
+                    }
+                    Promise.all(promises)
+                        .then(detailed_products => {
+                            let products = [];
+                            for (const detailed_product of detailed_products) {
+                                products.push(detailed_product);
+                            }
+                            this.setState({ products: products, limit, offset, isUpdating: false });
+                        })
+                  });
+            } catch (error) {
+                console.log('There was a problem in Search: ', error);
+            }
+        }
+    } else {
+        //console.log("nextCategory = " + nextCategory);
+        if (nextCategory) {
+          url = '/products/category/' + nextCategory + '?';
+        }
+        else {
+          url = '/products?';
+        }
+        query += "limit=" + limit + '&';
+        query += "offset=" + offset;
+        this.setState({ current_query: url+query });
+        if (this.state.current_query !== url+query) {
+          fetch(url+query)
+            .then(res => res.json())
+            .then(products => { this.setState({ products, limit, offset, isUpdating: false });
+                              //console.log('******** products array for category ' + nextCategory + ':'); // XXX
+                              //console.log(products); // XXX
+            });
+        }
+
     }
   }
 
@@ -72,6 +116,14 @@ class Products extends Component {
     let stars = ["star_border", "star_border", "star_border", "star_border", "star_border"];
     const self = this;
     const category = this.props.category || this.props.match.params.category;
+
+    /*
+    console.log("============================== render() called for category " + category); // XXX
+    console.log("render() dumping " + category + " products:");
+    console.log(JSON.stringify(this.state.products));
+    console.log("render() this.state.products.length = " + this.state.products.length);
+    */
+
     return (
       <div className={ "container " + (this.props.isInline ? '' : "content")}>
         <div className="products">
