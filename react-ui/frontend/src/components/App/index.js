@@ -184,7 +184,7 @@ export default class App extends Component {
                 cart={this.state.cart} fetchCart={this.fetchCart} removeItemFromCart={this.removeItemFromCart}/>
             )} />
 
-          <Route path="/Search"
+          <Route path="/search"
             render={(props) => (
                <Products
                  category="Search"

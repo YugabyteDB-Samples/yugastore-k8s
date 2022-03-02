@@ -37,17 +37,17 @@ class Products extends Component {
   }
 
   fetchProducts(nextCategory, nextLimit, nextOffset) {
-    let url, query = '';
+    let url, query = ''; // for the microservice we are calling
     const limit = this.props.limit || 12 || nextLimit;
     const offset = this.props.offset || nextOffset || 0;
 
     if ('Search' == nextCategory) {
         url = 'http://localhost:8888/search'; // XXX
-        let body = 'search=spoon' + "&limit=" + limit + '&offset=' + offset;
+        let search_term = new URLSearchParams(window.location.search).get('q');  // ?q=foo
+        let body = 'search=' + search_term + "&limit=" + limit + '&offset=' + offset;
 
-        this.setState({ current_query: url+query }); // TODO: fix pagination
-
-        if (this.state.current_query !== url+query) {
+        this.setState({ current_query: body });
+        if (this.state.current_query !== body) {
             try {
                 // call search microservice
                 fetch(url+query, { method: 'post', body: body, mode: 'cors', // XXX do I need to encode or decode?
@@ -59,7 +59,7 @@ class Products extends Component {
                     let promises = [];
                     for (const element of json) {
                         promises.push(fetch('/products/details?sku=' + element.sku, {mode: 'cors'}) // XXX need cors here?
-                            .then(res => res.json()));
+                            .then(res => res.json()) );
                     }
                     Promise.all(promises)
                         .then(detailed_products => {
@@ -73,9 +73,8 @@ class Products extends Component {
             } catch (error) {
                 console.log('There was a problem in Search: ', error);
             }
-        }
+        }//if
     } else {
-        //console.log("nextCategory = " + nextCategory);
         if (nextCategory) {
           url = '/products/category/' + nextCategory + '?';
         }
@@ -86,14 +85,14 @@ class Products extends Component {
         query += "offset=" + offset;
         this.setState({ current_query: url+query });
         if (this.state.current_query !== url+query) {
-          fetch(url+query)
-            .then(res => res.json())
-            .then(products => { this.setState({ products, limit, offset, isUpdating: false });
-                              //console.log('******** products array for category ' + nextCategory + ':'); // XXX
-                              //console.log(products); // XXX
-            });
+            try {
+              fetch(url+query)
+                .then(res => res.json())
+                .then(products => { this.setState({ products, limit, offset, isUpdating: false }); });
+            } catch (error) {
+                console.log('There was a problem in Products: ', error);
+            }
         }
-
     }
   }
 
@@ -116,13 +115,6 @@ class Products extends Component {
     let stars = ["star_border", "star_border", "star_border", "star_border", "star_border"];
     const self = this;
     const category = this.props.category || this.props.match.params.category;
-
-    /*
-    console.log("============================== render() called for category " + category); // XXX
-    console.log("render() dumping " + category + " products:");
-    console.log(JSON.stringify(this.state.products));
-    console.log("render() this.state.products.length = " + this.state.products.length);
-    */
 
     return (
       <div className={ "container " + (this.props.isInline ? '' : "content")}>
@@ -173,7 +165,7 @@ class Products extends Component {
                         </div>
                       </Link>
                       <button onClick={() => this.props.addItemToCart(product)} className="price-add">
-                        <div className="product-price">${product.price}</div>
+                        <div className="product-price">${product.price.toFixed(2)}</div>
                         <Icon small className="add-icon">add_shopping_cart</Icon>
                       </button>
                     </div>

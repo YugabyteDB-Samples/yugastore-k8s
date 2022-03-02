@@ -233,3 +233,25 @@ nav a {
   color: #FFFFFF;
   transition: 0.35s;
 }
+
+
+.nav-search {
+    width: 250px;
+    padding-top: 27px;
+    vertical-align: middle;
+}
+
+.nav-search form {
+    display: flex;
+
+}
+.nav-search input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+    font-size: 2rem;
+    color: #000000;
+}
+
+.nav-search button {
+    margin-left: 8px;
+}

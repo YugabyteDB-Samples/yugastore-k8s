@@ -27,7 +27,8 @@ class ShowProduct extends Component {
         .then(product => {
           this.setState({ product });
           if (product.also_bought) this.fetchProductAlsoBought(product.also_bought.slice(0,4));
-        });
+        })
+        .catch(error => console("caught " + error.message));
     }
   }
 
@@ -41,7 +42,8 @@ class ShowProduct extends Component {
           }
         })
         .then(res => res.json())
-        .then(product => {if (product.id) this.setState({ productAlsoBought: [...this.state.productAlsoBought, product] })});
+        .then(product => {if (product.id) this.setState({ productAlsoBought: [...this.state.productAlsoBought, product] })})
+        .catch(error => console("caught " + error.message));
     });
   }
 
@@ -159,7 +161,7 @@ class ShowProduct extends Component {
                           </div>
                         </Link>
                         <button onClick={() => this.props.addItemToCart(product)} className="price-add">
-                          <div className="product-price">${product.price}</div>
+                          <div className="product-price">${product.price.toFixed(2)}</div>
                           <Icon small className="add-icon">add_shopping_cart</Icon>
                         </button>
                       </div>
