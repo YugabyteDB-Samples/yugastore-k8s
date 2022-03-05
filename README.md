@@ -1,7 +1,7 @@
 # Yugastore in Java
 
 ![Homepage](docs/home.png)
-This is an implementation of a sample ecommerce app. This microservices-based retail marketplace or eCommerce app is composed of **microservices written in Spring (Java)**, a **UI based on React** and **YugabyteDB as the distributed SQL database**.
+This is an implementation of a sample ecommerce app. This microservices-based retail marketplace or eCommerce app is composed of microservices written in Java (Spring), a GUI based on React and YugabyteDB as the distributed SQL database.
 
 If you're using this demo app, please :star: this repository! We appreciate your support.
 
@@ -11,7 +11,7 @@ This repo contains all the instructions you need to [run the app on your laptop]
 
 You can also [try the app out](https://yugastore-ui.cfapps.io/) online, it is hosted on [Pivotal Web Services](https://run.pivotal.io/).
 
-# Versions
+## Versions
 
 * Java 17
 * Spring Boot 2.6.3
@@ -19,7 +19,7 @@ You can also [try the app out](https://yugastore-ui.cfapps.io/) online, it is ho
 * Yugabyte Java Driver 4.6.0-yb-10
 * Python 3 (Data Loading)
 
-# Features
+## Features
 
 * Written fully in Spring Framework
 * Desgined for multi-region and Kubernetes-native deployments
@@ -31,7 +31,7 @@ You can also [try the app out](https://yugastore-ui.cfapps.io/) online, it is ho
 
 The architecture diagram of Yugastore is shown below.
 
-![Architecture of microservices based retail marketplace app](yugastore-java-architecture.png)
+![Architecture of microservices based retail marketplace app](docs/yugastore-java-architecture.png)
 
 
 | Microservice         | YugabyteDB API | Default host:port | Description           |
@@ -44,15 +44,29 @@ The architecture diagram of Yugastore is shown below.
 | [checkout](https://github.com/yugabyte/yugastore-java/tree/master/checkout-microservice) | YCQL | [localhost:8086](http://localhost:8086) | This deals with the checkout process and the placed order. It also manages the inventory of all the products because it needs to ensure the product the user is about to order is still in stock.
 | [login](https://github.com/yugabyte/yugastore-java/tree/master/login-microservice) | YSQL | [localhost:8085](http://localhost:8085) | Handles login and authentication of the users. *Note that this is still a work in progress.*
 
-# Build and run
+# Build
 
-To build, simply run the following from the base directory:
+Run the following from the base directory:
 
 ```
-$ mvn -DskipTests package
+mvn -DskipTests package
 ```
 
 To run the app on host machine, you need to first install YugabyteDB, create the necessary tables, start each of the microservices and finally the React UI.
+
+# Running in docker containers
+
+The Docker images are built along with the binaries when `mvn -DskipTests package` was run.
+To run the docker containers, run the following script, after you have [Installed and initialized YugabyteDB](#step-1-install-and-initialize-yugabyte-db):
+
+```
+./docker-run.sh
+```
+Check all the services are registered on the [eureka-server](http://127.0.0.1:8761/).
+Once all services are registered, you can browse the marketplace app at [http://localhost:8080/](http://localhost:8080/).
+
+
+
 
 ## Running the app on host
 
@@ -136,37 +150,5 @@ mvn spring-boot:run
 
 Now browse to the marketplace app at [http://localhost:8080/](http://localhost:8080/).
 
-# Running the app in docker containers
-
-The dockers images are built along with the binaries when `mvn -DskipTests package` was run.
-To run the docker containers, run the following script, after you have [Installed and initialized YugabyteDB](#step-1-install-and-initialize-yugabyte-db):
-
-```
-./docker-run.sh
-```
-Check all the services are registered on the [eureka-server](http://127.0.0.1:8761/).
-Once all services are registered, you can browse the marketplace app at [http://localhost:8080/](http://localhost:8080/).
 
 
-
-## Screenshots
-
-
-### Home
-![Home Page](docs/home.png)
-
-### Product Category Page
-
-![Product Category](docs/product-category.png)
-
-### Product Detail Page
-
-![Product Page](docs/product.png)
-
-### Car
-
-![Cart](docs/cart.png)
-
-## Checkout
-
-![Checkout](docs/checkout.png)

@@ -10,10 +10,12 @@ import logging
 import os
 import sys
 import re
+import time
 
 from flask import Flask, jsonify, request
 import bleach
 
+import redis
 from redisearch import Client, Query
 
 def create_app():
@@ -71,12 +73,15 @@ def create_app():
     app.logger.setLevel(logging.getLogger('gunicorn.error').level)
     app.logger.info('Starting search service.')
 
-    # Configure database connection
-    client = Client("ft", host="localhost", port=6380) # XXX
+    # Configure redis connection
+    host = os.environ.get('REDIS_HOSTNAME') if os.environ.get('REDIS_HOSTNAME') else "127.0.0.1"
+    port = int(os.environ.get('REDIS_PORT')) if os.environ.get('REDIS_PORT') else 6380
+    client = Client("ft", host=host, port=port) # redisearch full text search index
     try:
         client.redis.ping()
     except (ConnectionRefusedError, redis.exceptions.ConnectionError):
-        app.logger.critical("cannot connect to redis")
+        app.logger.critical("cannot connect to redis at " + host + " on port " + str(port))
+        time.sleep(5) # avoid spamming logs
         sys.exit(1)
     return app
 

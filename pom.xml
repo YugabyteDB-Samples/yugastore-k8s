@@ -24,13 +24,13 @@
   </properties>
 
   <modules>
-    <module>eureka-server-local</module>
-    <module>products-microservice</module>
-    <module>checkout-microservice</module>
-    <module>cart-microservice</module>
-    <module>api-gateway-microservice</module>
-    <module>react-ui</module>
-    <module>login-microservice</module>
+    <module>src/eureka-server-local</module>
+    <module>src/products</module>
+    <module>src/checkout</module>
+    <module>src/cart</module>
+    <module>src/api-gateway</module>
+    <module>src/react-ui</module>
+    <module>src/login</module>
   </modules>
 
   <build>
