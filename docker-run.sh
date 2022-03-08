@@ -1,5 +1,7 @@
+#!/bin/sh
+# XXX - this does not work right now
 # Get ip address on which to run the microservices
-ipaddr=$(hostname -I| cut -d ' ' -f 1)
+ipaddr=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.')
 
 # Run eureka microservice, assuming the latest entry is to be used
 list=$(docker images | grep 'yugastore-eureka' | head -n 1 )
@@ -103,3 +105,22 @@ else
     fi
 fi
 
+# Run redisearch
+docker run -p 6380:6379 -d redislabs/redisearch:latest
+
+# Run search microservice
+list=$(docker images | grep 'yugastore-search' | head -n 1 )
+image=$(echo $list | cut -d ' ' -f 1)
+version=$(echo $list | cut -d ' ' -f 2)
+
+if [ -z "$image" ]
+then
+    echo "react-ui docker image not found"
+else
+    if [ -z "$version" ]
+    then
+        docker run -e ipaddr=$ipaddr -p 8888:8888 -d $image
+    else
+        docker run -e ipaddr=$ipaddr -p 8888:8888 -d $image:$version
+    fi
+fi
