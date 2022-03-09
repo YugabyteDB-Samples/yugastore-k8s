@@ -1,27 +1,53 @@
---YSQL
---Schema: retail
-Create schema if not exists retail;
+-- Following tables are being migrated from ycql to ysql
+CREATE TABLE products (
+      sku text PRIMARY KEY,
+      title text,
+      description text,
+      price decimal,
+      imurl text,
+      also_bought text,
+      also_viewed text,
+      bought_together text,
+      buy_after_viewing text,
+      brand text,
+      categories text,
+      num_reviews int,
+      num_stars int,
+      avg_stars decimal
+) ;
 
---Tables to support Microservices
---1. Products: Product Catalog Publishing Microservice
-Drop table if exists retail.products cascade;
-CREATE TABLE retail.products 
-(
-   sku UUID PRIMARY KEY,
-   title VARCHAR(64),
-   author VARCHAR(64),
-   description VARCHAR(200),
-   categories VARCHAR(64),
-   price numeric,
-   imurl VARCHAR(200),
-   discount numeric
-);
+// Missing description and price
 
-CREATE UNIQUE INDEX product_idx1 ON retail.products(title);
+// Table to store the rankings for the various categories of a product.
+CREATE TABLE product_rankings (
+     sku text,
+     category text,
+     sales_rank int,
+     title text,
+     price decimal,
+     imurl text,
+     num_reviews int,
+     num_stars int,
+     avg_stars decimal,
+     PRIMARY KEY (sku, category)
+) ;
 
---2. Product Inventory: Inventory Service
-Drop table if exists retail.inventory cascade;
-CREATE TABLE retail.inventory 
+//
+// Index to retrieve the top products in a given category.
+//
+CREATE INDEX top_products_in_category
+    ON product_rankings (category, sales_rank)
+    ;
+
+// Product Inventory Table
+CREATE TABLE product_inventory (
+  sku text PRIMARY KEY,
+  quantity int
+) ;
+
+
+
+CREATE TABLE inventory 
 (
      sku UUID,
      store_num  int,
@@ -34,11 +60,10 @@ CREATE TABLE retail.inventory
      PRIMARY KEY (sku, store_num)   
 );
  
- CREATE INDEX inventory_idx1 ON retail.inventory(sku,store_num);
+ CREATE INDEX inventory_idx1 ON inventory(sku,store_num);
  
---2. Transactions: Shopping Service / POS Service
- Drop table if exists retail.orders cascade;
- CREATE TABLE retail.orders 
+
+ CREATE TABLE orders 
  (
       order_id  UUID PRIMARY KEY,
       sku       UUID NOT NULL,
@@ -51,8 +76,7 @@ CREATE TABLE retail.inventory
 );
  
 --User
-Drop table if exists retail.shopusers cascade;
-create table retail.shopusers
+create table shopusers
 (
   accountid UUID PRIMARY KEY,
   username VARCHAR(64) UNIQUE NOT NULL,
