@@ -46,21 +46,21 @@ CREATE TABLE product_inventory (
 ) ;
 
 
-
-CREATE TABLE inventory 
-(
-     sku UUID,
-     store_num  int,
-     store_region VARCHAR(64), --east, west, etc
-     onhand int,
-     available_to_promise int,
-     allocated int,
-     reserved int,   
-     virtual_hold int,
-     PRIMARY KEY (sku, store_num)   
-);
+-- We don't need separate inventory table. We can add the additional columns to product_inventory
+-- CREATE TABLE inventory
+-- (
+--      sku UUID,
+--      store_num  int,
+--      store_region VARCHAR(64), --east, west, etc
+--      onhand int,
+--      available_to_promise int,
+--      allocated int,
+--      reserved int,
+--      virtual_hold int,
+--      PRIMARY KEY (sku, store_num)
+-- );
  
- CREATE INDEX inventory_idx1 ON inventory(sku,store_num);
+--  CREATE INDEX inventory_idx1 ON inventory(sku,store_num);
 
 
 CREATE TABLE orders (
@@ -71,6 +71,7 @@ CREATE TABLE orders (
        order_total decimal
 )
 
+--  we already have orders table which we brought from ycql. Add additional columns to it if needed.
 -- CREATE TABLE orders
 --  (
 --       order_id  UUID PRIMARY KEY,
