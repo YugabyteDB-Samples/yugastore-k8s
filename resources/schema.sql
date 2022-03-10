@@ -61,19 +61,27 @@ CREATE TABLE inventory
 );
  
  CREATE INDEX inventory_idx1 ON inventory(sku,store_num);
- 
 
- CREATE TABLE orders 
- (
-      order_id  UUID PRIMARY KEY,
-      sku       UUID NOT NULL,
-      accountid CHAR(10) NOT NULL,
-      order_details jsonb,
-      order_date TIMESTAMP,
-      order_total int,
-      store_num int,
-      store_region VARCHAR(64)
-);
+
+CREATE TABLE orders (
+       order_id text PRIMARY KEY,
+       user_id text,
+       order_details text,
+       order_time text,
+       order_total decimal
+)
+
+-- CREATE TABLE orders
+--  (
+--       order_id  UUID PRIMARY KEY,
+--       sku       UUID NOT NULL,
+--       accountid CHAR(10) NOT NULL,
+--       order_details jsonb,
+--       order_date TIMESTAMP,
+--       order_total int,
+--       store_num int,
+--       store_region VARCHAR(64)
+-- );
  
 --User
 create table shopusers
