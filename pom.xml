@@ -31,6 +31,8 @@
     <module>api-gateway-microservice</module>
     <module>react-ui</module>
     <module>login-microservice</module>
+      <module>inventory-microservice</module>
+      <module>inventory-microservice</module>
   </modules>
 
   <build>

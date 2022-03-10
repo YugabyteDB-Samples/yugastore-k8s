@@ -4,11 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.yugabyte.app.yugastore.domain.ProductMetadata;
 import com.yugabyte.app.yugastore.repo.ProductMetadataRepo;
 import com.yugabyte.app.yugastore.service.ProductService;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,5 +35,6 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductMetadata> findAllProductsPageable(int limit, int offset) {
 		
 		return productRepository.getProducts(limit, offset);
+
 	}
 }

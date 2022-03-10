@@ -15,9 +15,9 @@ spring:
       repositories:
         enabled: true
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5433/postgres
-    username: postgres
-    password: ""
+    url: jdbc:postgresql://127.0.0.1:5433/yugabyte
+    username: yugabyte
+    password: yugabyte
 logging:
   level:
     root: debug

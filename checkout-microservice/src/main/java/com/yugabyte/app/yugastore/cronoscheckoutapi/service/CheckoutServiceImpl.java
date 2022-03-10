@@ -7,7 +7,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.data.cassandra.core.CassandraOperations;
+//import org.springframework.data.cassandra.core.CassandraOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -42,8 +43,10 @@ public class CheckoutServiceImpl {
 	}
 
 	@Autowired
-	private CassandraOperations cassandraTemplate;
+	//private CassandraOperations cassandraTemplate;
+	private JdbcTemplate jdbcTemplate;
 
+	@Transactional
 	public Order checkout(String userId) throws NotEnoughProductsInStockException {
 		Map<String, Integer> products = shoppingCartRestClient.getProductsInCart(userId);
 		System.out.println("*** In Checkout products ***");
@@ -63,20 +66,26 @@ public class CheckoutServiceImpl {
 				if (productInventory.getQuantity() < entry.getValue())
 					throw new NotEnoughProductsInStockException(productDetails.getTitle(), productInventory.getQuantity());
 
-				updateCartpreparedStatement.append(" UPDATE product_inventory SET quantity = quantity - "
-						+ entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
+//				updateCartpreparedStatement.append(" UPDATE product_inventory SET quantity = quantity - "
+//						+ entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
+				jdbcTemplate.execute(" UPDATE product_inventory SET quantity = quantity - " + entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
 				orderDetails.append(" Product: " + productDetails.getTitle() + ", Quantity: " + entry.getValue() + ";");
 			}
 			double orderTotal = getTotal(products);
 			orderDetails.append(" Order Total is : " + orderTotal);
 			currentOrder = createOrder(orderDetails.toString(), orderTotal);
-			updateCartpreparedStatement
-					.append(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total) VALUES ("
-							+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
-							+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
-			updateCartpreparedStatement.append(" END TRANSACTION;");
+//			updateCartpreparedStatement
+//					.append(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total) VALUES ("
+//							+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
+//							+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
+//			updateCartpreparedStatement.append(" END TRANSACTION;");
+			jdbcTemplate.execute(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total) VALUES ("
+					+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
+					+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
+
 			System.out.println("Statemet is " + updateCartpreparedStatement.toString());
-			cassandraTemplate.getCqlOperations().execute(updateCartpreparedStatement.toString());
+			//cassandraTemplate.getCqlOperations().execute(updateCartpreparedStatement.toString());
+//			jdbcTemplate.execute(updateCartpreparedStatement.toString());
 		}
 		products.clear();
 		shoppingCartRestClient.clearCart(userId);
