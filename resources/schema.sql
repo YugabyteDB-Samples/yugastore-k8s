@@ -16,9 +16,9 @@ CREATE TABLE products (
       avg_stars decimal
 ) ;
 
-// Missing description and price
+-- Missing description and price
 
-// Table to store the rankings for the various categories of a product.
+-- Table to store the rankings for the various categories of a product.
 CREATE TABLE product_rankings (
      sku text,
      category text,
@@ -32,14 +32,14 @@ CREATE TABLE product_rankings (
      PRIMARY KEY (sku, category)
 ) ;
 
-//
-// Index to retrieve the top products in a given category.
-//
+--
+-- Index to retrieve the top products in a given category.
+--
 CREATE INDEX top_products_in_category
     ON product_rankings (category, sales_rank)
     ;
 
-// Product Inventory Table
+-- Product Inventory Table
 CREATE TABLE product_inventory (
   sku text PRIMARY KEY,
   quantity int
@@ -84,4 +84,15 @@ create table shopusers
   firstname VARCHAR(64) NOT NULL,
   lastname VARCHAR(64) NOT NULL,
   state VARCHAR(2) NOT NULL
+);
+
+
+-- shopping_cart
+create table shopping_cart
+(
+    cart_key text PRIMARY KEY,
+    user_id text,
+    sku text,
+    time_added text,
+    quantity int
 );
