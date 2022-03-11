@@ -12,4 +12,5 @@ public interface ProductService {
 
     List<ProductMetadata> findAllProductsPageable(int limit, int offset);
 
+    int updateProduct(String sku, String title, String description, double price);
 }

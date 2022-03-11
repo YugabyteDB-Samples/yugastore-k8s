@@ -61,4 +61,17 @@ public class ProductCatalogController {
     return new ResponseEntity<List<ProductRanking>>(products, HttpStatus.OK);
   }
 
+
+  @RequestMapping(method = RequestMethod.GET, value = "/product/update/{sku}", produces = "application/json")
+  public @ResponseBody ResponseEntity<String> updateProduct(@PathVariable String sku,
+                              @Param("title") String title,
+                              @Param("description") String description,
+                              @Param("price") double price
+  )
+  {
+    String response = productCatalogServiceRest.updateProduct(sku,title,description,price);
+    return new ResponseEntity<String>(response,HttpStatus.OK);
+  }
+
+
 }

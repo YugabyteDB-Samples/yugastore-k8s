@@ -37,4 +37,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.getProducts(limit, offset);
 
 	}
+
+    @Override
+    public int updateProduct(String sku, String title, String description, double price) {
+        return productRepository.updateProduct(sku,title,description,price);
+    }
 }

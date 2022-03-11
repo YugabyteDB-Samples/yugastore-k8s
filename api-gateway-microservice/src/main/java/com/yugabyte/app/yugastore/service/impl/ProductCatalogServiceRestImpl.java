@@ -39,4 +39,9 @@ public class ProductCatalogServiceRestImpl implements ProductCatalogServiceRest 
   public List<ProductRanking> getProductsByCategory(String category, int limit, int offset) {
     return productCatalogRestClient.getProductsByCategory(category, limit, offset);
   }
+
+  @Override
+  public String updateProduct(String sku, String title, String description, double price) {
+    return productCatalogRestClient.updateProduct(sku,title,description,price);
+  }
 }

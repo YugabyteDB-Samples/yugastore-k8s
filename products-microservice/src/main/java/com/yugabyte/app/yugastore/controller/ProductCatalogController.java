@@ -45,4 +45,22 @@ public class ProductCatalogController {
                                                     @Param("offset") int offset) {
     return productRankingService.getProductsByCategory(category, limit, offset);
   }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/product/update/{sku}", produces = "application/json")
+  public String updateProduct(@PathVariable String sku,
+                                       @Param("title") String title,
+                                       @Param("description") String description,
+                                       @Param("price") double price
+                                       ) {
+    String response = "Failed to update the record.";
+
+    int result = productService.updateProduct(sku,title,description,price);
+
+    if(result == 1){
+      response = "Record updated successfully";
+    }
+
+    return response;
+  }
+
 }

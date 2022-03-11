@@ -12,4 +12,6 @@ public interface ProductCatalogServiceRest {
   List<ProductMetadata> getProducts(int limit, int offset);
 
   List<ProductRanking> getProductsByCategory(String category, int limit, int offset);
+
+    String updateProduct(String sku, String title, String description, double price);
 }

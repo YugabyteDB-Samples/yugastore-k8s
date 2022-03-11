@@ -24,4 +24,10 @@ public interface ProductCatalogRestClient {
   List<ProductRanking> getProductsByCategory(@PathVariable("category") String category,
     @RequestParam("limit") int limit,
     @RequestParam("offset") int offset);
+
+  @RequestMapping("/products-microservice/product/update/{sku}")
+  String updateProduct(@PathVariable("sku") String sku,
+                       @RequestParam("title") String title,
+                       @RequestParam("description") String description,
+                       @RequestParam("price") double price);
 }

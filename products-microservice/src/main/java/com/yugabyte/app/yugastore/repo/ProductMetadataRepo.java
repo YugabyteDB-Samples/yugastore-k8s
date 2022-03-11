@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.yugabyte.app.yugastore.domain.ProductMetadata;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @RepositoryRestResource(path = "product")
 public interface ProductMetadataRepo extends CrudRepository<ProductMetadata, String> {
@@ -22,4 +24,9 @@ public interface ProductMetadataRepo extends CrudRepository<ProductMetadata, Str
 	public List<ProductMetadata> getProducts(@Param("limit") int limit, @Param("offset") int offset);
 
 	Optional<ProductMetadata> findById(String id);
+
+	@Modifying
+	@Transactional
+	@Query("update products p set p.title = ?2, p.description = ?3, p.price = ?4 where p.id = ?1")
+	int updateProduct(String sku, String title, String description, double price);
 }
