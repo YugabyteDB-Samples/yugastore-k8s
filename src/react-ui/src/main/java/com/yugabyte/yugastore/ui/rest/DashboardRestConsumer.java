@@ -27,6 +27,9 @@ public class DashboardRestConsumer {
 	@Value("${cronos.yugabyte.api:http://localhost:8081/api/v1}")
 	String restUrlBase;
 
+	@Value("${cronos.search.api:http://search-microservice:8888/search}")
+	String searchUrlBase;
+
 	public String getHomePageProducts(int limit, int offset) {
 
 		String restURL = restUrlBase + "products?limit=" + limit + "&offset=" + offset;
@@ -86,6 +89,22 @@ public class DashboardRestConsumer {
 		String addProductJsonResponse = rateResponse.getBody();
 		return addProductJsonResponse;
 	}
+
+	public String doSearch(String term) {
+		String restURL = searchUrlBase;
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.add("search", term);
+
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, null);
+
+		ResponseEntity<String> rateResponse =
+				restTemplate.exchange(restURL,
+						HttpMethod.POST, request, new ParameterizedTypeReference<String>() {
+						});
+		String addProductJsonResponse = rateResponse.getBody();
+		return addProductJsonResponse;
+	}
+
 
 	public String removeProductFromCart(String sku) {
 

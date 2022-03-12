@@ -49,8 +49,7 @@ cursor = db.cursor()
 def process_chunk(chunk):
     chunk.seek(0)
     try:
-        #cursor.copy_from(chunk, args.table, sep=args.delimiter, null='') # cannot handle commas within fields
-        cursor.copy_expert("COPY %s FROM STDIN WITH (FORMAT CSV)" % (args.table), chunk)
+        cursor.copy_expert("COPY %s FROM STDIN WITH (FORMAT CSV, DELIMITER '%s')" % (args.table, args.delimiter), chunk)
         db.commit()
     except psycopg2.errors.UniqueViolation as e:
         print(current_time(), "ERROR while processing chunk %s, last line read was %s, %s"

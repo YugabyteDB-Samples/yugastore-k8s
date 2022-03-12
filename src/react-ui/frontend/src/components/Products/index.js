@@ -42,7 +42,7 @@ class Products extends Component {
     const offset = this.props.offset || nextOffset || 0;
 
     if ('Search' == nextCategory) {
-        url = 'http://localhost:8888/search'; // XXX
+        url = '/search';
         let search_term = new URLSearchParams(window.location.search).get('q');  // ?q=foo
         let body = 'search=' + search_term + "&limit=" + limit + '&offset=' + offset;
 

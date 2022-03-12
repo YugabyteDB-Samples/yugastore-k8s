@@ -1,7 +1,7 @@
 cronos:
   yugabyte:
     keyspace: cronos
-    hostname: 127.0.0.1
+    hostname: ${DB_HOSTNAME:127.0.0.1}
     port: 9042
 
 spring:
@@ -11,3 +11,12 @@ spring:
     name: checkout-microservice
 server:
   port: 8086
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI}
+  instance:
+    hostname: ${spring.application.name}

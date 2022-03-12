@@ -17,7 +17,7 @@ You can also [try the app out](https://yugastore-ui.cfapps.io/) online, it is ho
 * Spring Boot 2.6.3
 * Spring Cloud 2021.0.0
 * Yugabyte Java Driver 4.6.0-yb-10
-* Python 3 (Data Loading)
+* Python 3 (for data Loading)
 
 ## Features
 
@@ -42,113 +42,102 @@ The architecture diagram of Yugastore is shown below.
 | [products](https://github.com/yugabyte/yugastore-java/tree/master/products-microservice) | YCQL | [localhost:8082](http://localhost:8082) | This microservice contains the entire product catalog. It can list products by categories, return the most popular products as measured by sales rank, etc.
 | [cart](https://github.com/yugabyte/yugastore-java/tree/master/cart-microservice) | YSQL | [localhost:8083](http://localhost:8083) | This microservice deals with users adding items to the shopping cart. It has to be necessarily highly available, low latency and often multi-region.
 | [checkout](https://github.com/yugabyte/yugastore-java/tree/master/checkout-microservice) | YCQL | [localhost:8086](http://localhost:8086) | This deals with the checkout process and the placed order. It also manages the inventory of all the products because it needs to ensure the product the user is about to order is still in stock.
+| search | Redis | [localhost:8088](http://localhost:8088) | Uses the Redisearch module of Redis to provide full text search of the product catalog.
 | [login](https://github.com/yugabyte/yugastore-java/tree/master/login-microservice) | YSQL | [localhost:8085](http://localhost:8085) | Handles login and authentication of the users. *Note that this is still a work in progress.*
 
-# Build
 
-Run the following from the base directory:
+## Minikube Setup
 
-```
-mvn -DskipTests package
-```
+This mode puts Docker images directly into minikube's container repository using skaffold for automation.
 
-To run the app on host machine, you need to first install YugabyteDB, create the necessary tables, start each of the microservices and finally the React UI.
+1. Start minikube.
 
-# Running in docker containers
+    ```
+    minikube start --cpus 4 --memory 5120 --vm-driver virtualbox
+    ```
 
-The Docker images are built along with the binaries when `mvn -DskipTests package` was run.
-To run the docker containers, run the following script, after you have [Installed and initialized YugabyteDB](#step-1-install-and-initialize-yugabyte-db):
+1. Currently all components of the demo reside in a single namespace called `yb-demo`.  This may become more flexible in the future.
 
-```
-./docker-run.sh
-```
-Check all the services are registered on the [eureka-server](http://127.0.0.1:8761/).
-Once all services are registered, you can browse the marketplace app at [http://localhost:8080/](http://localhost:8080/).
+    ```
+    kubectl config set-context --current --namespace=yb-demo
+    ```
 
+1. Ensure your [helm charts](https://docs.yugabyte.com/latest/quick-start/install/kubernetes/) are up to date so you can run YugabyteDB in minikube.
 
+    ```
+    helm repo update
+    ```
 
+1. Create OSS YugabyteDB.  Note: if you use Platform instead, you will need to edit yaml files in the k8s directory.
 
-## Running the app on host
+	```
+	for namespace in yb-demo
+	do
+	helm install $namespace yugabytedb/yugabyte \
+	--set resource.master.requests.cpu=0.5,resource.master.requests.memory=0.5Gi,\
+	resource.tserver.requests.cpu=0.5,resource.tserver.requests.memory=0.5Gi,\
+	replicas.master=1,replicas.tserver=1,enableLoadBalancer=False,\
+	istioCompatibility.enabled=true \
+	--create-namespace --namespace $namespace
+	done
+	```
 
-Make sure you have built the app as described above. Now do the following steps.
+1.  Tell skaffold to use minikube's docker container registry.  It's [magic](https://skaffold.dev/docs/environment/local-cluster/).
 
-## Step 1: Install and initialize YugabyteDB
+    ```
+    eval $(minikube -p minikube docker-env)
+    ```
+1. Build the Docker containers and deploy them into minikube. 
 
-You can [install YugabyteDB by following these instructions](https://docs.yugabyte.com/latest/quick-start/).
+    ```
+    skaffold run --skip-tests=true
+    ```
 
-Now create the necessary tables as shown below. Note that these steps would take a few seconds.
+1. Enable port forwarding to the database so you can populate data.
 
-```
-cd resources
-cqlsh -f schema.cql
-```
-Next, load some sample data.
+    ```
+    kubectl port-forward -n yb-demo svc/yb-tservers 5444:5433 9444:9042
+    ```
 
-```
-cd resources
-./dataload.sh
-```
+1. Create the schemas and load product catalog data into YugabyteDB.
 
-Create the postgres tables in `resources/schema.sql` for the YSQL tables.
+    ```
+    cd resources
+    ycqlsh localhost 9444 -f schema.cql
+    ysqlsh -p 5444 -f schema.sql
+    ./dataload2.sh
+    ```
 
-## Step 2: Start the Eureka service discovery (local)
+1. Populate the Redis cache.
 
-You can do this as follows:
+    ```
+    kubectl port-forward redis 6380:6379
+    ./json2redis.py products.json
+    ```
 
-```
-cd eureka-server-local/
-mvn spring-boot:run
-```
+1. Enable port forwarding for your browser, and browse to [http://localhost:8080/](http://localhost:8080/)
 
-Verify this is running by browsing to the [Spring Eureka Service Discovery dashboard](http://localhost:8761/).
+    ```
+    kubectl port-forward svc/yugastore-ui 8080:8080
+    ```
 
-## Step 3: Start the api gateway microservice
+## GKE Setup
 
-To run the products microservice, do the following in a separate shell:
+The following steps assume you already have a GKE cluster created with its credentials in your current kubectl context.  You will also need the Docker daemon running on your local machine to stage the containers before they are pushed to GKE.
 
-```
-cd api-gateway-microservice/
-mvn spring-boot:run
-```
+1. Unset any minikube Docker environment variables, if present.
 
+    ```
+    eval $(minikube -p minikube docker-env -u)
+    ```
 
-## Step 4: Start the products microservice
+1. Create OSS YugabyteDB in the `yb-demo` namespace using the method from the minikube step above. Note: if you use Platform instead, you will need to edit yaml files in the k8s directory.
 
-To run the products microservice, do the following in a separate shell:
+1. Deploy the pods to GKE.  You will need to tell skaffold the name of your GCP project's [image registry](https://skaffold.dev/docs/environment/image-registries/).  The registry name can be determined by navigating to your project's Container Registry and clicking on the copy icon next to the repository to get the full name.
 
-```
-cd products-microservice/
-mvn spring-boot:run
-```
+    ```
+    skaffold run --skip-tests=true --default-repo gcr.io/dataengineeringdemos/yugabyte
+    ```
 
-## Step 5: Start the checkout microservice
-
-To run the products microservice, do the following in a separate shell:
-
-```
-cd checkout-microservice/
-mvn spring-boot:run
-```
-
-## Step 6: Start the checkout microservice
-
-To run the cart microservice, do the following in a separate shell:
-
-```
-cd cart-microservice/
-mvn spring-boot:run
-```
-
-## Step 7: Start the UI
-
-To do this, simply run `npm start` from the `frontend` directory in a separate shell:
-
-```
-cd react-ui
-mvn spring-boot:run
-```
-
-Now browse to the marketplace app at [http://localhost:8080/](http://localhost:8080/).
-
-
+1. The remaining steps are exactly the same as the last 4 steps of the minikube steps above: enable port-forwarding, load the data to YugabyteDB and Redis, and then browse to [http://localhost:8080/](http://localhost:8080/)
 

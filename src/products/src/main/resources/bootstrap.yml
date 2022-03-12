@@ -3,9 +3,3 @@ spring:
     name: products-microservice
 server:
   port: 8082
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://${eureka.instance.hostname}:8761/eureka}

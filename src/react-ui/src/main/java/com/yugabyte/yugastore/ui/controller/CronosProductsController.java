@@ -29,33 +29,42 @@ public class CronosProductsController {
 		return dashboardRestConsumer.getProductsByCategory(category, limit, offset);
 	}
 
-  @RequestMapping(method = RequestMethod.GET, value = "/products/details")
-  public @ResponseBody String getProductDetails(@RequestParam("sku") String sku) {
-    return dashboardRestConsumer.getProductDetails(sku);
-  }
+	@RequestMapping(method = RequestMethod.GET, value = "/products/details")
+    public @ResponseBody String getProductDetails(@RequestParam("sku") String sku) {
+      return dashboardRestConsumer.getProductDetails(sku);
+    }
 
-  @PostMapping("/cart/add")
+    @PostMapping("/cart/add")
 	public @ResponseBody String addProductToCart(@RequestParam("sku") String sku) {
 		return dashboardRestConsumer.addProductToCart(sku);
 	}
-  
-  @PostMapping("/cart/get")
+
+    @PostMapping("/cart/get")
 	public @ResponseBody String showCart() {
 		return dashboardRestConsumer.showCart();
 	}
-  
-  @PostMapping("/cart/checkout")
+
+    @PostMapping("/cart/checkout")
 	public @ResponseBody String checkoutCart() {
 		return dashboardRestConsumer.checkout();
 	}
 
-  @RequestMapping(method = RequestMethod.POST, value = "/cart/remove")
+    @RequestMapping(method = RequestMethod.POST, value = "/cart/remove")
 	public @ResponseBody String removeProductFromCart(@RequestParam("sku") String sku) {
 		return dashboardRestConsumer.removeProductFromCart(sku);
 	}
 
-  @RequestMapping(method = RequestMethod.POST, value = "/cart/getCart")
-	public @ResponseBody String getCart() {
-		return dashboardRestConsumer.getCart();
+	@RequestMapping(method = RequestMethod.POST, value = "/search")
+	public @ResponseBody String doSearchPost(@RequestParam("search") String term) {
+		return dashboardRestConsumer.doSearch(term);
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/search")
+	public @ResponseBody String doSearchGet(@RequestParam("search") String term) {
+		return dashboardRestConsumer.doSearch(term);
+	}
+
+    @RequestMapping(method = RequestMethod.POST, value = "/cart/getCart")
+	public @ResponseBody String getCart() {	return dashboardRestConsumer.getCart();	}
+
 }
