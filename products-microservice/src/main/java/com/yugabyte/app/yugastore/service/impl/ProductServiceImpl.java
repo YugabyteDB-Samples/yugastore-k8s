@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,9 @@ import org.springframework.web.context.WebApplicationContext;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductMetadataRepo productRepository;
+
+    @Value("${server.storenum}")
+    private int storeNum;
 
     @Autowired
     public ProductServiceImpl(ProductMetadataRepo productRepository) {
@@ -46,6 +50,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public int getOrderCount() {
-        return  productRepository.getOrderCount();
+        return  productRepository.getOrderCount(storeNum);
     }
 }

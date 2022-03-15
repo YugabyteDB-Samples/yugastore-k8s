@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 //import org.springframework.data.cassandra.core.CassandraOperations;
@@ -33,6 +34,9 @@ public class CheckoutServiceImpl {
 
 	ProductInventory productInventory;
 	ProductMetadata productDetails;
+
+	@Value("${server.storenum}")
+	private int storeNum;
 
 	@Autowired
 	public CheckoutServiceImpl(ProductInventoryRepository productInventoryRepository, 
@@ -79,9 +83,13 @@ public class CheckoutServiceImpl {
 //							+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
 //							+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
 //			updateCartpreparedStatement.append(" END TRANSACTION;");
-			jdbcTemplate.execute(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total) VALUES ("
-					+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
-					+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
+			String tmpOrderDetails = currentOrder.getOrder_details();
+			if(tmpOrderDetails != null){
+				tmpOrderDetails = tmpOrderDetails.replaceAll("'","''");
+			}
+			jdbcTemplate.execute(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total, store_num) VALUES ("
+					+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + tmpOrderDetails
+					+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ","+storeNum+  ");");
 
 			System.out.println("Statemet is " + updateCartpreparedStatement.toString());
 			//cassandraTemplate.getCqlOperations().execute(updateCartpreparedStatement.toString());

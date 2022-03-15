@@ -31,7 +31,7 @@ public interface ProductMetadataRepo extends CrudRepository<ProductMetadata, Str
 	@Query("update products p set p.title = ?2, p.description = ?3, p.price = ?4 where p.id = ?1")
 	int updateProduct(String sku, String title, String description, double price);
 
-	@Query(nativeQuery = true, value="SELECT count(*) as ordercount FROM orders")
+	@Query(nativeQuery = true, value="SELECT count(*) as ordercount FROM orders where store_num = ?1")
 	@RestResource(path = "orders", rel = "orders")
-    int getOrderCount();
+    int getOrderCount(int storeNum);
 }

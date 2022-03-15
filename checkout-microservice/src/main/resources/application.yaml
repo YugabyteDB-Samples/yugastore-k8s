@@ -29,6 +29,7 @@ spring:
 
 server:
   port: 8086
+  storenum: 99
 
 logging:
   level:

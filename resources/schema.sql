@@ -68,7 +68,8 @@ CREATE TABLE orders (
        user_id text,
        order_details text,
        order_time text,
-       order_total decimal
+       order_total decimal,
+       store_num int
 )
 
 --  we already have orders table which we brought from ycql. Add additional columns to it if needed.
