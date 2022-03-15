@@ -3,6 +3,7 @@ package com.yugabyte.app.yugastore.repo;
 import java.util.List;
 import java.util.Optional;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,8 @@ public interface ProductMetadataRepo extends CrudRepository<ProductMetadata, Str
 	@Transactional
 	@Query("update products p set p.title = ?2, p.description = ?3, p.price = ?4 where p.id = ?1")
 	int updateProduct(String sku, String title, String description, double price);
+
+	@Query(nativeQuery = true, value="SELECT count(*) as ordercount FROM orders")
+	@RestResource(path = "orders", rel = "orders")
+    int getOrderCount();
 }

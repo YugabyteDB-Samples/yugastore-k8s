@@ -6,6 +6,7 @@ import Cart from '../Cart';
 import ShowProduct from '../ShowProduct';
 import Products from '../Products';
 import Home from '../Home';
+import Orders from '../Orders';
 import { Navbar, Footer, Subscribe } from '../Main/components';
 import { Route, Switch } from 'react-router-dom';
 import './index.css';
@@ -183,6 +184,11 @@ export default class App extends Component {
               <Cart
                 cart={this.state.cart} fetchCart={this.fetchCart} removeItemFromCart={this.removeItemFromCart}/>
             )} />
+
+          <Route path="/orders"
+                 render={(props) => (
+                     <Orders />
+          )} />
       
           <Route path="/Music"
             render={(props) => (

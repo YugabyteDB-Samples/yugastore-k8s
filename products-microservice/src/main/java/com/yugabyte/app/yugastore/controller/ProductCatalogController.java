@@ -2,6 +2,7 @@ package com.yugabyte.app.yugastore.controller;
 
 import java.util.List;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,4 +64,12 @@ public class ProductCatalogController {
     return response;
   }
 
+
+  @RequestMapping(method = RequestMethod.GET, value = "/orders", produces = "application/json")
+  public OrderCount getProductDetails() {
+    int count = productService.getOrderCount();
+    OrderCount orderCount = new OrderCount();
+    orderCount.setOrdercount(count);
+    return orderCount;
+  }
 }

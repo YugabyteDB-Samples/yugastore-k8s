@@ -3,6 +3,7 @@ package com.yugabyte.app.yugastore.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -41,5 +42,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int updateProduct(String sku, String title, String description, double price) {
         return productRepository.updateProduct(sku,title,description,price);
+    }
+
+    @Override
+    public int getOrderCount() {
+        return  productRepository.getOrderCount();
     }
 }
