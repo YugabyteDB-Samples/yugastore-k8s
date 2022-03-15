@@ -145,5 +145,16 @@ public class DashboardRestConsumer {
 		            });
 		String addProductJsonResponse = rateResponse.getBody();
 		return addProductJsonResponse;
-	}	
+	}
+
+	public String getOrdersCount() {
+		String restURL = restUrlBase + "orders/" ;
+		ResponseEntity<String> rateResponse =
+				restTemplate.exchange(
+						restURL,
+						HttpMethod.GET, null, new ParameterizedTypeReference<String>() {});
+		String ordersJsonResponse = rateResponse.getBody();
+		System.out.println("ordersJsonResponse:["+ordersJsonResponse+"]");
+		return ordersJsonResponse;
+	}
 }

@@ -32,6 +32,7 @@ public class ProductMetadataRestRepo {
         repository = repo;
     }
 
+
     @RequestMapping(method = RequestMethod.GET, value = "/productmetadata/relatedproducts")
     public @ResponseBody ResponseEntity<?> getRelatedProducts(@RequestParam("sku")String sku) {
 

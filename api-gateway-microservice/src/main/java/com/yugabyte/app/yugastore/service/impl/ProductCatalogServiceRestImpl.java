@@ -2,6 +2,7 @@ package com.yugabyte.app.yugastore.service.impl;
 
 import java.util.List;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -38,5 +39,15 @@ public class ProductCatalogServiceRestImpl implements ProductCatalogServiceRest 
   @Override
   public List<ProductRanking> getProductsByCategory(String category, int limit, int offset) {
     return productCatalogRestClient.getProductsByCategory(category, limit, offset);
+  }
+
+  @Override
+  public String updateProduct(String sku, String title, String description, double price) {
+    return productCatalogRestClient.updateProduct(sku,title,description,price);
+  }
+
+  @Override
+  public OrderCount getOrderCount() {
+    return productCatalogRestClient.getOrderCount();
   }
 }

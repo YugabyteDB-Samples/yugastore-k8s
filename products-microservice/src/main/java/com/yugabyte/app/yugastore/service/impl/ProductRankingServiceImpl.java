@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import com.yugabyte.app.yugastore.domain.ProductRanking;
 import com.yugabyte.app.yugastore.repo.ProductRankingRepository;
 import com.yugabyte.app.yugastore.service.ProductRankingService;
+import org.springframework.web.context.WebApplicationContext;
 
 @Service
 public class ProductRankingServiceImpl implements ProductRankingService {

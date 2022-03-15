@@ -1,12 +1,11 @@
 package com.yugabyte.app.yugastore.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import javax.persistence.*;
 
-@PrimaryKeyClass
+@Embeddable
 public class ProductRankingKey implements Serializable {
 	
 	/**
@@ -14,10 +13,16 @@ public class ProductRankingKey implements Serializable {
 	 */
 	private static final long serialVersionUID = -6646128061564873843L;
 
-	@PrimaryKeyColumn(name = "sku", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+	//@PrimaryKeyColumn(name = "sku", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+	//@Id
+
+
+	@Column(name = "sku", nullable = false)
 	private String sku;
 	
-	@PrimaryKeyColumn(name = "category", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+	//@PrimaryKeyColumn(name = "category", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+	//@Id
+	@Column(name = "category", nullable = false)
 	private String category;
 
 	public String getSku() {

@@ -24,7 +24,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>17</java.version>
     <spring-cloud.version>2021.0.0</spring-cloud.version>
-    <yugabyte-driver.version>4.6.0-yb-10</yugabyte-driver.version>
   </properties>
 
   <dependencyManagement>
@@ -36,19 +35,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-
-      <dependency>
-        <groupId>com.yugabyte</groupId>
-        <artifactId>java-driver-bom</artifactId>
-        <version>${yugabyte-driver.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
+<!--    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-cassandra</artifactId>
       <exclusions>
@@ -57,17 +48,12 @@
           <artifactId>java-driver-core</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
       <version>3.0.8</version>
       <classifier>indy</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>com.yugabyte</groupId>
-      <artifactId>java-driver-core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -141,6 +127,40 @@
       <artifactId>hibernate-validator</artifactId>
       <version>7.0.1.Final</version>
     </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-data-jpa</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>jakarta.persistence</groupId>
+          <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <scope>runtime</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.yugabyte</groupId>
+          <artifactId>jdbc-yugabytedb</artifactId>
+          <version>42.3.3</version>
+      </dependency>
+      <dependency>
+          <groupId>com.zaxxer</groupId>
+          <artifactId>HikariCP</artifactId>
+          <version>4.0.3</version>
+      </dependency>
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.22</version>
+          <scope>provided</scope>
+      </dependency>
+
   </dependencies>
 
   <build>

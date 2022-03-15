@@ -2,6 +2,7 @@ package com.yugabyte.app.yugastore.rest.clients;
 
 import java.util.List;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,4 +25,13 @@ public interface ProductCatalogRestClient {
   List<ProductRanking> getProductsByCategory(@PathVariable("category") String category,
     @RequestParam("limit") int limit,
     @RequestParam("offset") int offset);
+
+  @RequestMapping("/products-microservice/product/update/{sku}")
+  String updateProduct(@PathVariable("sku") String sku,
+                       @RequestParam("title") String title,
+                       @RequestParam("description") String description,
+                       @RequestParam("price") double price);
+
+  @RequestMapping("/products-microservice/orders")
+  OrderCount getOrderCount();
 }

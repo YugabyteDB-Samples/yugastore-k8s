@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.yugabyte.app.yugastore.domain.*;
+import org.springframework.stereotype.Service;
 
 public interface ProductService {
 
@@ -11,4 +12,7 @@ public interface ProductService {
 
     List<ProductMetadata> findAllProductsPageable(int limit, int offset);
 
+    int updateProduct(String sku, String title, String description, double price);
+
+    int getOrderCount();
 }

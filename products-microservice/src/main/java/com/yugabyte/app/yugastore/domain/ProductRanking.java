@@ -1,23 +1,25 @@
 package com.yugabyte.app.yugastore.domain;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table(value = "product_rankings")
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "product_rankings")
 public class ProductRanking{
 
-	@PrimaryKey
-	private ProductRankingKey sku;
+	@EmbeddedId
+	private ProductRankingKey productRankingKey;
 
-	@Column(value = "sales_rank")
+
+	@Column(name = "sales_rank")
 	private int salesRank;
 	
 	private String title;
 	
 	private Double price;
 	
-	@Column(value = "imurl")
+	@Column(name = "imurl")
 	private String imUrl;
 	
 	private Integer num_reviews;
@@ -34,9 +36,6 @@ public class ProductRanking{
 		this.salesRank = salesRank;
 	}
 
-	public ProductRankingKey getId() {
-		return sku;
-	}
 
 	public String getTitle() {
 		return title;
@@ -62,9 +61,6 @@ public class ProductRanking{
 		return avg_stars;
 	}
 
-	public void setId(ProductRankingKey id) {
-		this.sku = id;
-	}
 
 	public void setTitle(String title) {
 		this.title = title;
@@ -90,4 +86,11 @@ public class ProductRanking{
 		this.avg_stars = avg_stars;
 	}
 
+	public ProductRankingKey getId() {
+		return productRankingKey;
+	}
+
+	public void setId(ProductRankingKey productRankingKey) {
+		this.productRankingKey = productRankingKey;
+	}
 }

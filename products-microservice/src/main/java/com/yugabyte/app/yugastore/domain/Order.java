@@ -1,25 +1,30 @@
 package com.yugabyte.app.yugastore.domain;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table(value="orders")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="orders")
 public class Order {
 	
-    @PrimaryKey(value="order_id")
+//    @PrimaryKey(value="order_id")
+	@Id
+	@Column(name = "order_id")
     private String id;
     
-    @Column(value = "user_id")
+    @Column(name = "user_id")
     private Integer user_id;
     
-    @Column(value = "order_details")
+    @Column(name = "order_details")
     private String order_details;
     
-    @Column(value = "order_time")
+    @Column(name = "order_time")
     private String order_time;
     
-    @Column(value = "order_total")
+    @Column(name = "order_total")
     private Double order_total;
 
 	public String getId() {

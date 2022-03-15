@@ -2,6 +2,7 @@ package com.yugabyte.app.yugastore.controller;
 
 import java.util.List;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yugabyte.app.yugastore.domain.ProductMetadata;
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import com.yugabyte.app.yugastore.domain.ProductRanking;
 import com.yugabyte.app.yugastore.service.ProductCatalogServiceRest;
 
@@ -61,4 +63,28 @@ public class ProductCatalogController {
     return new ResponseEntity<List<ProductRanking>>(products, HttpStatus.OK);
   }
 
+
+  @RequestMapping(method = RequestMethod.GET, value = "/product/update/{sku}", produces = "application/json")
+  public @ResponseBody ResponseEntity<String> updateProduct(@PathVariable String sku,
+                              @Param("title") String title,
+                              @Param("description") String description,
+                              @Param("price") double price
+  )
+  {
+    String response = productCatalogServiceRest.updateProduct(sku,title,description,price);
+    return new ResponseEntity<String>(response,HttpStatus.OK);
+  }
+
+
+  /**
+   * Return order count
+   */
+  @RequestMapping(method = RequestMethod.GET, value = "/orders", produces = "application/json")
+  public @ResponseBody ResponseEntity<OrderCount> getOrderCount() {
+    OrderCount orderCountData = productCatalogServiceRest.getOrderCount();
+//    OrderCount orderCountData = new OrderCount();
+//    orderCountData.setOrdercount(9999);
+
+    return new ResponseEntity<OrderCount>(orderCountData, HttpStatus.OK);
+  }
 }

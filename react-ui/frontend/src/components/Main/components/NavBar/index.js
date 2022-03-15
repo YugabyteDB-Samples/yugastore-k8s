@@ -51,6 +51,13 @@ class Navbar extends Component {
           </NavLink></li>
         </ul>
       </div>
+
+      <div className='nav-cart'>
+        <NavLink className="nav-link" to="/orders">
+          <Icon icon="barcode"/>Orders
+        </NavLink>
+      </div>
+
       <div className='nav-cart'>
         <NavLink className={`${this.props.cart.total ? 'nav-cart-active' : '' }`} to="/cart">
           {this.props.cart.total > 0 && <span className={`nav-cart-count ${this.props.cart.error ? "nav-cart-count-error": ""}`}>{this.props.cart.total}</span>}

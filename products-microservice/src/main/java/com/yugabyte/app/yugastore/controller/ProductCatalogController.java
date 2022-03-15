@@ -2,6 +2,7 @@ package com.yugabyte.app.yugastore.controller;
 
 import java.util.List;
 
+import com.yugabyte.app.yugastore.domain.OrderCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,5 +45,31 @@ public class ProductCatalogController {
                                                     @Param("limit") int limit,
                                                     @Param("offset") int offset) {
     return productRankingService.getProductsByCategory(category, limit, offset);
+  }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/product/update/{sku}", produces = "application/json")
+  public String updateProduct(@PathVariable String sku,
+                                       @Param("title") String title,
+                                       @Param("description") String description,
+                                       @Param("price") double price
+                                       ) {
+    String response = "Failed to update the record.";
+
+    int result = productService.updateProduct(sku,title,description,price);
+
+    if(result == 1){
+      response = "Record updated successfully";
+    }
+
+    return response;
+  }
+
+
+  @RequestMapping(method = RequestMethod.GET, value = "/orders", produces = "application/json")
+  public OrderCount getProductDetails() {
+    int count = productService.getOrderCount();
+    OrderCount orderCount = new OrderCount();
+    orderCount.setOrdercount(count);
+    return orderCount;
   }
 }

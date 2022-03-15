@@ -33,17 +33,18 @@
         <scope>import</scope>
       </dependency>
 
-      <dependency>
+<!--      <dependency>
         <groupId>com.yugabyte</groupId>
         <artifactId>java-driver-bom</artifactId>
         <version>${yugabyte-driver.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
+      </dependency>-->
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+<!--
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-cassandra</artifactId>
@@ -54,6 +55,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+-->
 
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
@@ -62,10 +64,10 @@
       <classifier>indy</classifier>
     </dependency>
 
-    <dependency>
+<!--    <dependency>
       <groupId>com.yugabyte</groupId>
       <artifactId>java-driver-core</artifactId>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-rest</artifactId>
@@ -110,6 +112,39 @@
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>7.0.1.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.yugabyte</groupId>
+      <artifactId>jdbc-yugabytedb</artifactId>
+      <version>42.3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>4.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 

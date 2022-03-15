@@ -58,4 +58,15 @@ public class CronosProductsController {
 	public @ResponseBody String getCart() {
 		return dashboardRestConsumer.getCart();
 	}
+
+	@GetMapping("/orders")
+	public String getOrderDetails() {
+		//return dashboardRestConsumer.getHomePageProducts(10, 0);
+		//return "{\"ordercount\": 100}";
+		return  dashboardRestConsumer.getOrdersCount();
+
+		//return "[{\"id\": 5,\"name\": \"How to Win Friends & Influence People\",\"description\": \"For more than sixty years the rock-solid\",\"price\": 9.6,\"author\": \"Dale Carnegie\",\"type\": \"paperback\",\"img\": \"https://images-na.ssl-images-amazon.com/images/I/51PWIy1rHUL._AA300_.jpg\",\"category\": \"business\",\"num_reviews\": 182,\"total_stars\": 550,\"stars\": \"3.02\"}]";
+	}
+
+
 }

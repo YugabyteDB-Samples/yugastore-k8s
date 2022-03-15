@@ -1,30 +1,32 @@
 package com.yugabyte.app.yugastore.domain;
 
+import com.yugabyte.app.yugastore.util.StringListConverter;
+import com.yugabyte.app.yugastore.util.StringSetConverter;
+import org.springframework.context.annotation.Bean;
+
 import java.util.List;
 import java.util.Set;
-import org.springframework.data.cassandra.core.mapping.CassandraType;
-import org.springframework.data.cassandra.core.mapping.CassandraType.Name;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
-import org.springframework.hateoas.RepresentationModel;
 
+import javax.persistence.*;
 
-
-
-@Table(value = "products")
+@Entity(name = "products")
+@Table(name = "products")
 public class ProductMetadata{
 
 
-    @PrimaryKey(value="sku")
+//    @PrimaryKey(value="sku")
+	@Id
+	@Column(name = "sku")
     private String id;
   //String sku;
 
 	String brand;
 
+	@Column(name = "categories")
+	@Convert(converter = StringSetConverter.class)
 	Set<String> categories;
 
-	@Column(value = "imurl")
+	@Column(name = "imurl")
 	String imUrl;
 
 	Double price;
@@ -33,23 +35,36 @@ public class ProductMetadata{
 
 	String description;
 
-	@CassandraType(type = Name.LIST)
+//	@CassandraType(type = Name.LIST)
+	@Column
+	@Convert(converter = StringListConverter.class)
 	List<String> also_bought;
+	//String also_bought;
 
-	@CassandraType(type = Name.LIST)
+//	@CassandraType(type = Name.LIST)
+	@Column
+	@Convert(converter = StringListConverter.class)
 	List<String> also_viewed;
+	//String also_viewed;
 
-	@CassandraType(type = Name.LIST)
+//	@CassandraType(type = Name.LIST)
+	@Column
+	@Convert(converter = StringListConverter.class)
 	List<String> bought_together;
+	//String bought_together;
 
-	@CassandraType(type = Name.LIST)
+//	@CassandraType(type = Name.LIST)
+	@Column
+	@Convert(converter = StringListConverter.class)
 	List<String> buy_after_viewing;
+	//String buy_after_viewing;
 
 	Integer num_reviews;
 
 	Double num_stars;
 
 	Double avg_stars;
+
 
 	public String getId() {
 		return id;
@@ -135,6 +150,8 @@ public class ProductMetadata{
 	public void setBuy_after_viewing(List<String> buy_after_viewing) {
 		this.buy_after_viewing = buy_after_viewing;
 	}
+
+
 
     @Override
     public boolean equals(Object o) {
