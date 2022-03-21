@@ -1,0 +1,4 @@
+FROM eclipse-temurin:17-jre
+COPY ./target/eureka-server-local-0.0.1-SNAPSHOT.jar /
+EXPOSE 8761
+CMD java -jar /eureka-server-local-0.0.1-SNAPSHOT.jar --server.port=8761 --eureka.instance.preferIpAddress=true --eureka.instance.ipAddress=$EUREKA_SERVER

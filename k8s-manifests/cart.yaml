@@ -1,0 +1,51 @@
+##################################################################################################
+# Cart Microservice
+##################################################################################################
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cart-microservice-v1-properties
+data:
+  spring.datasource.url: jdbc:postgresql://yb-tservers.yb-demo.svc.cluster.local:5433/postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-microservice
+spec:
+  selector:
+    app: cart
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-microservice-v1
+  labels:
+    app: cart
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: cart
+        version: v1
+    spec:
+      containers:
+      - name: cart
+        image: gcr.io/dataengineeringdemos/yugabyte/yugastore-cart:v0.1
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: cart-microservice-v1-properties
+        ports:
+        - containerPort: 8083

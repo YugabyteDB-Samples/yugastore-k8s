@@ -27,8 +27,6 @@ i = 0 # batch iterator
 # parse files or stdin
 for line in fileinput.input(sys.argv[1:]):
     i = i + 1
-    ##print(i)
-    ##print(line)
     line = line.rstrip()
     doc = json.loads(line)
 

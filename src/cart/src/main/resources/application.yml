@@ -1,0 +1,35 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: cart-microservice
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  data:
+    jpa:
+      repositories:
+        enabled: true
+  datasource:
+    url: jdbc:postgresql://${DB_HOSTNAME:127.0.0.1}:5433/yugabyte
+    username: yugabyte
+    password: yugabyte
+logging:
+  level:
+    root: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.hibernate.type.descriptor.BasicBinder: trace
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI}
+  instance:
+    hostname: ${spring.application.name}

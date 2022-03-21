@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: api-gateway-microservice
+server:
+  port: 8081
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI}
+  instance:
+    hostname: api-gateway

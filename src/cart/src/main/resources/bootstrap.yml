@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: cart-microservice
+server:
+  port: 8083
