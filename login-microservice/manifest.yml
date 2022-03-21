@@ -1,5 +1,0 @@
----
-applications:
-- name: yugastore-login
-  random-route: false
-  path: target/login-microservice-0.0.1-SNAPSHOT.war

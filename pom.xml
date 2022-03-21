@@ -24,24 +24,38 @@
   </properties>
 
   <modules>
-    <module>eureka-server-local</module>
-    <module>products-microservice</module>
-    <module>checkout-microservice</module>
-    <module>cart-microservice</module>
-    <module>api-gateway-microservice</module>
-    <module>react-ui</module>
-    <module>login-microservice</module>
-      <module>inventory-microservice</module>
-      <module>inventory-microservice</module>
+    <module>src/eureka-server-local</module>
+    <module>src/products</module>
+    <module>src/checkout</module>
+    <module>src/cart</module>
+    <module>src/api-gateway</module>
+    <module>src/react-ui</module>
+    <module>src/login</module>
   </modules>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+	<plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+	</plugin>
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>17</source>
+            <target>17</target>
+          </configuration>
+	</plugin>
+      </plugins>
+    </pluginManagement>
+
   </build>
 
 

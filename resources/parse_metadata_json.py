@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import json
 import sys
 import random, math
 
 def safe_encode(str):
     str1 = str.replace('\\', "\\\\")
-    return ('"' + str1.replace('"', '\\"').replace("\n"," ").strip() + '"')
+    return ('"' + str1.replace('"', '""').replace("\n"," ").strip() + '"')
 
 def collection_to_str(items, start_sep, end_sep):
     if len(items) == 0:
@@ -26,7 +28,7 @@ def parse_and_write_metadata(product, f_products, f_rankings, f_inventory):
     and writes a line of CSV to the output files in the format the YugaByte DB loader expects.
     """
     num_reviews = random.randint(100, 1000)
-    num_stars = round((random.random() * 2 * num_reviews + 3 * num_reviews),2)
+    num_stars = int((random.random() * 2 * num_reviews + 3 * num_reviews))
     avg_stars = round(num_stars / num_reviews,2)
     default_price = round(random.uniform(20,800), 2)
 

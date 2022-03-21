@@ -1,0 +1,51 @@
+##################################################################################################
+# Yugastore UI
+##################################################################################################
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: yugastore-ui-properties
+data:
+  cronos.yugabyte.api: http://api-gateway:8080/api/v1/
+  cronos.search.api: http://search-microservice:8888/search
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yugastore-retailapp-ui
+  labels:
+    app: ui
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: ui
+        version: v1
+    spec:
+      containers:
+      - name: sappho-retailapp-ui
+        image: gcr.io/dataengineeringdemos/yugabyte/yugastore-react-ui:v0.1
+        envFrom:
+        - configMapRef:
+            name: yugastore-ui-properties
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yugastore-ui
+spec:
+  selector:
+    app: ui
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---

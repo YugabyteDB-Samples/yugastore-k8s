@@ -70,7 +70,7 @@ CREATE TABLE orders (
        order_time text,
        order_total decimal,
        store_num int
-)
+);
 
 --  we already have orders table which we brought from ycql. Add additional columns to it if needed.
 -- CREATE TABLE orders

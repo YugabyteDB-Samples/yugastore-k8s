@@ -1,0 +1,55 @@
+apiVersion: skaffold/v2beta18
+kind: Config
+metadata:
+  name: eureka
+build:
+  artifacts:
+  - image: gcr.io/dataengineeringdemos/yugabyte/eureka-server-local
+    jib:
+      project: src/eureka-server-local
+deploy:
+  kubectl:
+    manifests:
+    - k8s-manifests/env.yaml
+    - k8s-manifests/eureka.yaml
+---
+apiVersion: skaffold/v2beta18
+kind: Config
+metadata:
+  name: yugastore
+requires:
+  - configs: [eureka]
+build:
+  artifacts:
+  - image: gcr.io/dataengineeringdemos/yugabyte/api-gateway
+    jib:
+      project: src/api-gateway
+  - image: gcr.io/dataengineeringdemos/yugabyte/yugastore-cart
+    jib:
+      project: src/cart
+  - image: gcr.io/dataengineeringdemos/yugabyte/yugastore-checkout
+    jib:
+      project: src/checkout
+#  - image: gcr.io/dataengineeringdemos/yugabyte/login
+#    jib:
+#      project: src/login
+#      args:
+#      - -X
+  - image: gcr.io/dataengineeringdemos/yugabyte/yugastore-products
+    jib:
+      project: src/products
+  - image: gcr.io/dataengineeringdemos/yugabyte/yugastore-react-ui
+    jib:
+      project: src/react-ui
+  - image: gcr.io/dataengineeringdemos/yugabyte/yugastore-search
+    context: src/search
+deploy:
+  kubectl:
+    manifests:
+    - k8s-manifests/api-gateway.yaml
+    - k8s-manifests/cart.yaml
+    - k8s-manifests/checkout.yaml
+    - k8s-manifests/products.yaml
+    - k8s-manifests/react-ui.yaml
+    - k8s-manifests/search.yaml
+    - k8s-manifests/redis.yaml
