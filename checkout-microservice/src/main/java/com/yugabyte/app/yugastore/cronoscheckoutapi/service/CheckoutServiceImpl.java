@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -57,8 +60,10 @@ public class CheckoutServiceImpl {
 		StringBuilder updateCartpreparedStatement = new StringBuilder();
 		updateCartpreparedStatement.append("BEGIN TRANSACTION");
 		Order currentOrder = null;
-		StringBuilder orderDetails = new StringBuilder();
-		orderDetails.append("Customer bought these Items: ");
+//		StringBuilder orderDetails = new StringBuilder();
+		JSONObject jsonObject = new JSONObject();
+//		orderDetails.append("Customer bought these Items: ");
+		JSONArray listOfProductsPurchased = new JSONArray();
 
 		if (products.size() != 0) {
 			for (Map.Entry<String, Integer> entry : products.entrySet()) {
@@ -70,30 +75,29 @@ public class CheckoutServiceImpl {
 				if (productInventory.getQuantity() < entry.getValue())
 					throw new NotEnoughProductsInStockException(productDetails.getTitle(), productInventory.getQuantity());
 
-//				updateCartpreparedStatement.append(" UPDATE product_inventory SET quantity = quantity - "
-//						+ entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
 				jdbcTemplate.execute(" UPDATE product_inventory SET quantity = quantity - " + entry.getValue() + " where sku = '" + entry.getKey() + "' ;");
-				orderDetails.append(" Product: " + productDetails.getTitle() + ", Quantity: " + entry.getValue() + ";");
+//				orderDetails.append(" Product: " + productDetails.getTitle() + ", Quantity: " + entry.getValue() + ";");
+				JSONObject productPurchasedObj = new JSONObject();
+				productPurchasedObj.put("product",productDetails.getTitle());
+				productPurchasedObj.put("quantity",entry.getValue());
+				listOfProductsPurchased.put(productPurchasedObj);
 			}
 			double orderTotal = getTotal(products);
-			orderDetails.append(" Order Total is : " + orderTotal);
-			currentOrder = createOrder(orderDetails.toString(), orderTotal);
-//			updateCartpreparedStatement
-//					.append(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total) VALUES ("
-//							+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
-//							+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ");");
-//			updateCartpreparedStatement.append(" END TRANSACTION;");
-			String tmpOrderDetails = currentOrder.getOrder_details();
-			if(tmpOrderDetails != null){
-				tmpOrderDetails = tmpOrderDetails.replaceAll("'","''");
-			}
+//			orderDetails.append(" Order Total is : " + orderTotal);
+			jsonObject.put("order_total",orderTotal);
+			jsonObject.put("products_purchased",listOfProductsPurchased);
+//			currentOrder = createOrder(orderDetails.toString(), orderTotal);
+			currentOrder = createOrder(jsonObject.toString().replaceAll("'","''"), orderTotal);
+
+//			String tmpOrderDetails = currentOrder.getOrder_details();
+//			if(tmpOrderDetails != null){
+//				tmpOrderDetails = tmpOrderDetails.replaceAll("'","''");
+//			}
 			jdbcTemplate.execute(" INSERT INTO orders (order_id, user_id, order_details, order_time, order_total, store_num) VALUES ("
-					+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + tmpOrderDetails
+					+ "'" + currentOrder.getId() + "', " + "'1'" + ", '" + currentOrder.getOrder_details()
 					+ "', '" + currentOrder.getOrder_time() + "'," + currentOrder.getOrder_total() + ","+storeNum+  ");");
 
 			System.out.println("Statemet is " + updateCartpreparedStatement.toString());
-			//cassandraTemplate.getCqlOperations().execute(updateCartpreparedStatement.toString());
-//			jdbcTemplate.execute(updateCartpreparedStatement.toString());
 		}
 		products.clear();
 		shoppingCartRestClient.clearCart(userId);

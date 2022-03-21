@@ -66,11 +66,11 @@ CREATE TABLE product_inventory (
 CREATE TABLE orders (
        order_id text PRIMARY KEY,
        user_id text,
-       order_details text,
+       order_details jsonb,
        order_time text,
        order_total decimal,
        store_num int
-)
+);
 
 --  we already have orders table which we brought from ycql. Add additional columns to it if needed.
 -- CREATE TABLE orders
@@ -85,18 +85,6 @@ CREATE TABLE orders (
 --       store_region VARCHAR(64)
 -- );
  
---User
-create table shopusers
-(
-  accountid UUID PRIMARY KEY,
-  username VARCHAR(64) UNIQUE NOT NULL,
-  passhash BYTEA NOT NULL,
-  firstname VARCHAR(64) NOT NULL,
-  lastname VARCHAR(64) NOT NULL,
-  state VARCHAR(2) NOT NULL
-);
-
-
 -- shopping_cart
 create table shopping_cart
 (
