@@ -42,8 +42,12 @@ class Products extends Component {
     const offset = this.props.offset || nextOffset || 0;
 
     if ('Search' == nextCategory) {
-        url = '/search';
-        let search_term = new URLSearchParams(window.location.search).get('q');  // ?q=foo
+        url = '/search'; // must match ProductController @PostMapping
+        let thePath = window.location.pathname;
+        let search_term =  thePath.substring(thePath.lastIndexOf('/') + 1);
+        //let search_term = new URLSearchParams(window.location.search).get('q');  // ?q=foo
+        //let search_term =  this.props.location.state.term;
+        //alert('fetchProducts search_term: ' + search_term);
         let body = 'search=' + search_term + "&limit=" + limit + '&offset=' + offset;
 
         this.setState({ current_query: body });

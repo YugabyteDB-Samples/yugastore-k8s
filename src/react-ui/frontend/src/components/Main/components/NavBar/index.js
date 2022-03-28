@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Logo } from '../';
 import { Icon } from "../../../common";
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, withRouter, Redirect } from 'react-router-dom';
 // Internals
 import './index.css';
 
@@ -20,12 +20,35 @@ class Navbar extends Component {
     super(props);
     this.state = {
       itemsInCart: 0,
+      value: '',
+      submitted: false
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) { this.setState({value: event.target.value}); }
+
+  handleSubmit(event) {
+      event.preventDefault();
+      this.setState({ submitted: true });
+      //alert('A value was submitted: ' + this.state.value);
   }
 
   render() {
     const { match, location, history } = this.props
     const notIndex = location.pathname!=="/";
+
+    if (this.state.submitted) {
+         //this.context.router.history.push({
+         //    pathname: '/Search',
+         //    state: {term: this.state.value}
+         //})
+        this.setState({ submitted: false });
+        //console.log("XXX REDIRECT TO " + "/Search/" + this.state.value);
+        return <Redirect to={"/Search/" + this.state.value} />
+    }
+
     return(
     <nav className={`nav-bar ${this.props.scrolled || notIndex ? 'nav-bar-scrolled' : '' }`}>
       <NavLink to="/">
@@ -59,8 +82,8 @@ class Navbar extends Component {
       </div>
 
       <div className='nav-search'>
-        <form action="/search">
-          <input autoFocus type="text" name="q" id="textbox" autocomplete="on" />
+        <form onSubmit={this.handleSubmit}>
+          <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} />
           <button className="btn btn-small"><span className="nav-link-text">Search</span></button>
         </form>
       </div>

@@ -54,8 +54,13 @@ public class CronosProductsController {
 		return dashboardRestConsumer.removeProductFromCart(sku);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/search")
+	@PostMapping("/search")
 	public @ResponseBody String doSearchPost(@RequestParam("search") String term) {
+		return dashboardRestConsumer.doSearch(term);
+	}
+
+	@GetMapping("/search")
+	public @ResponseBody String doSearchGet(@RequestParam("q") String term) {
 		return dashboardRestConsumer.doSearch(term);
 	}
 
@@ -66,11 +71,6 @@ public class CronosProductsController {
 		return  dashboardRestConsumer.getOrdersCount();
 
 		//return "[{\"id\": 5,\"name\": \"How to Win Friends & Influence People\",\"description\": \"For more than sixty years the rock-solid\",\"price\": 9.6,\"author\": \"Dale Carnegie\",\"type\": \"paperback\",\"img\": \"https://images-na.ssl-images-amazon.com/images/I/51PWIy1rHUL._AA300_.jpg\",\"category\": \"business\",\"num_reviews\": 182,\"total_stars\": 550,\"stars\": \"3.02\"}]";
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/search")
-	public @ResponseBody String doSearchGet(@RequestParam("search") String term) {
-		return dashboardRestConsumer.doSearch(term);
 	}
 
     @RequestMapping(method = RequestMethod.POST, value = "/cart/getCart")
