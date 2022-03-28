@@ -72,7 +72,7 @@ This mode puts Docker images directly into minikube's container repository using
 
 **Start here for GKE**.  Continue here if you are using minikube.
 
-1. Ensure your [helm charts](https://docs.yugabyte.com/latest/quick-start/install/kubernetes/) are up to date so you can run YugabyteDB in minikube.
+1. Ensure your [helm charts](https://docs.yugabyte.com/latest/quick-start/install/kubernetes/) are up to date so you can run YugabyteDB in k8s.
 
     ```
     helm repo update
