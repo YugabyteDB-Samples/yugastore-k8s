@@ -78,7 +78,7 @@ This mode puts Docker images directly into minikube's container repository using
     helm repo update
     ```
 
-1. Create OSS YugabyteDB, and give it a minute or two to start up.  Note: if you use Platform instead, you will need to edit yaml files in the k8s directory.
+1. Create OSS YugabyteDB, and give it a minute or two to start up.  Note: if you use Platform instead, you will need to edit env.yaml in the k8s-manifests directory.
 
 	```
 	for namespace in yb-demo
