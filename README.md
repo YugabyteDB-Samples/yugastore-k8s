@@ -46,6 +46,31 @@ The architecture diagram of Yugastore is shown below.
 | [login](src/login) | YSQL | [localhost:8085](http://localhost:8085) | Handles login and authentication of the users. *Note that this is still a work in progress.*
 
 
+## How to run this app on VM or local machine
+
+1. Build jar files for microservices
+```
+./build.sh = This will will create 6 jar files under src/target
+```
+2. Start the microservices
+```
+./start-microservices.sh
+```
+You can specify the database host name and store in the script. Example:
+```
+./start-microservices.sh -host <DB_HOST_IP> -storenum <storenum>
+```
+
+3. Web UI:
+```
+http://<host>:8080
+```
+4. Stop microservices:
+```
+./stop-microservices.sh
+```
+
+
 ## Minikube Setup
 
 This mode puts Docker images directly into minikube's container repository using skaffold for automation.

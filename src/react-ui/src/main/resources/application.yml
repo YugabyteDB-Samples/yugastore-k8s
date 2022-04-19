@@ -4,6 +4,7 @@ cronos:
 
 server:
   port: 8080
+  storenum: ${STORENUM:99}
 
 logging:
   level:

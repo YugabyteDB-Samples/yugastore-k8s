@@ -38,12 +38,3 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
     org.hibernate.type.descriptor.BasicBinder: trace
-
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI}
-  instance:
-    hostname: ${spring.application.name}
